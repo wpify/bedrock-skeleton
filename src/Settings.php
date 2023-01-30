@@ -11,18 +11,7 @@ use Wpify\CustomFields\CustomFields;
  * @property Plugin $plugin
  */
 class Settings {
-	/**
-	 * @var CustomFields
-	 */
-	public $wcf;
-
-	/**
-	 * Option key, and option page slug
-	 *
-	 * @var string
-	 */
-	const KEY = 'czechadid_options';
-
+	const KEY = 'wpify_skeleton_options';
 	const FORM_EMAIL = 'form-email';
 	const FOOTER = 'footer';
 	const SCRIPTS = 'scripts';
@@ -31,13 +20,11 @@ class Settings {
 	const SCRIPTS_BODY_END = 'script_body_end';
 
 	public function __construct( CustomFields $wcf ) {
-		$this->wcf = $wcf;
-
-		$this->wcf->create_options_page(
+		$wcf->create_options_page(
 			array(
 				'parent_slug' => 'options-general.php',
-				'page_title'  => __( 'Czech Ad ID Settings', 'czechadid' ),
-				'menu_title'  => __( 'Czech Ad ID', 'czechadid' ),
+				'page_title'  => __( 'Wpify Skeleton Settings', 'wpify-skeleton' ),
+				'menu_title'  => __( 'Wpify Skeleton', 'wpify-skeleton' ),
 				'menu_slug'   => self::KEY,
 				'capability'  => 'manage_options',
 				'items'       => array(
@@ -48,13 +35,13 @@ class Settings {
 							array(
 								'type'  => 'email',
 								'id'    => self::FORM_EMAIL,
-								'title' => _x( 'E-mail for forms', 'settings', 'czechadid' ),
+								'title' => _x( 'E-mail for forms', 'settings', 'wpify-skeleton' ),
 							),
 							array(
 								'type'        => 'wysiwyg',
 								'id'          => self::FOOTER,
-								'title'       => _x( 'Text in the footer', 'settings', 'czechadid' ),
-								'description' => _x( 'You can use placeholder for year <code>[year]</code>.', 'settings', 'czechadid' ),
+								'title'       => _x( 'Text in the footer', 'settings', 'wpify-skeleton' ),
+								'description' => _x( 'You can use placeholder for year <code>[year]</code>.', 'settings', 'wpify-skeleton' ),
 							),
 							array(
 								'type'  => 'group',
@@ -63,24 +50,24 @@ class Settings {
 								'items' => array(
 									array(
 										'type'  => 'title',
-										'title' => _x( 'Scripts', 'settings', 'czechadid' ),
+										'title' => _x( 'Scripts', 'settings', 'wpify-skeleton' ),
 										'id'    => 'title',
 									),
 									array(
 										'type'    => 'code',
-										'title'   => _x( 'In header', 'settings', 'czechadid' ),
+										'title'   => _x( 'In header', 'settings', 'wpify-skeleton' ),
 										'id'      => self::SCRIPTS_HEADER,
 										'default' => '',
 									),
 									array(
 										'type'    => 'code',
-										'title'   => _x( 'At the body start', 'settings', 'czechadid' ),
+										'title'   => _x( 'At the body start', 'settings', 'wpify-skeleton' ),
 										'id'      => self::SCRIPTS_BODY_START,
 										'default' => '',
 									),
 									array(
 										'type'    => 'code',
-										'title'   => _x( 'At the body end', 'settings', 'czechadid' ),
+										'title'   => _x( 'At the body end', 'settings', 'wpify-skeleton' ),
 										'id'      => self::SCRIPTS_BODY_END,
 										'default' => '',
 									),

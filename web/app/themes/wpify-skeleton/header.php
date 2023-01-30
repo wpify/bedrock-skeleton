@@ -2,15 +2,16 @@
 use WpifySkeleton\Controllers\HeaderController;
 
 $controller = wpify_skeleton_container()->get( HeaderController::class );
-$controller->menu();
 ?><!doctype html>
 <html class="no-js" <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<?php echo $controller->scripts_header(); ?>
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+<?php echo $controller->scripts_body_start(); ?>
 <?php wp_body_open(); ?>
 <header class="site-header">
     <div class="logo">
