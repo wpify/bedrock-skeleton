@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+ddev wp i18n make-pot . web/app/mu-plugins/czechadid/languages/czechadid.pot --include="czechadid,src,assets" --slug=czechadid --domain=czechadid
+ddev exec rm -rf web/web/app/mu-plugins/czechadid/languages/json
+ddev exec "cd /var/www/html/web/app/mu-plugins/czechadid && wp i18n make-json languages languages/json --no-purge --pretty-print"

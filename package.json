@@ -1,0 +1,21 @@
+{
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build",
+    "packages-update": "wp-scripts packages-update",
+    "ddevcerts": "docker cp ddev-router:/etc/nginx/certs .ssl",
+    "prestart": "npm run ddevcerts"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^25.2.0",
+    "browser-sync": "^2.27.11",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "node-sass-glob-importer": "^5.3.2",
+    "postcss-import": "^15.1.0",
+    "svg-spritemap-webpack-plugin": "^4.5.0"
+  },
+  "dependencies": {
+    "@wordpress/icons": "^9.16.0",
+    "classnames": "^2.3.2"
+  }
+}

@@ -1,0 +1,72 @@
+include:
+  - project: 'wpify/gitlab-ci-templates'
+    ref: master
+    file:
+      - 'jobs/node.yml'
+      - 'jobs/composer.yml'
+      - 'jobs/tools.yml'
+
+assets:
+  stage: .pre
+  extends: .node
+  image: node:16
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/web/app/mu-plugins/$PLUGIN_SLUG/build
+      - $CI_PROJECT_DIR/web/app/themes/$THEME_SLUG/style.css
+      - $CI_PROJECT_DIR/web/app/themes/$THEME_SLUG/editor-style.css
+    expire_in: 1 week
+
+composer:
+  stage: .pre
+  extends: .composer_install
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/deps
+      - $CI_PROJECT_DIR/vendor
+      - $CI_PROJECT_DIR/web/app/mu-plugins
+      - $CI_PROJECT_DIR/web/app/plugins
+      - $CI_PROJECT_DIR/web/app/themes
+      - $CI_PROJECT_DIR/web/app/vendor
+      - $CI_PROJECT_DIR/web/wp
+    expire_in: 1 week
+
+deploy:
+  stage: deploy
+  extends: .tools
+  environment:
+    name: $ENV_NAME
+    url: $ENV_URL
+  needs:
+    - assets
+    - composer
+  script: |
+    replace "WPIFY_VERSION" "$CI_COMMIT_REF_NAME" \
+      "web/app/mu-plugins/$PLUGIN_SLUG/$PLUGIN_SLUG.php" \
+      "web/app/themes/$THEME_SLUG/style.css"
+
+    server_deploy \
+      wp-cli.yml \
+      assets/ \
+      config/ \
+      src/ \
+      vendor/ \
+      web/*.php \
+      web/app/mu-plugins/ \
+      web/app/plugins/ \
+      web/app/themes/ \
+      web/app/vendor/ \
+      web/app/vendor/ \
+      web/wp/*.* \
+      web/wp/wp-admin/ \
+      web/wp/wp-includes/
+
+    server_run "rm -rf $SERVER_PATH/web/app/cache"
+    server_run "/usr/bin/sudo /usr/local/sbin/purge_cache.sh"
+    
+    server_run "wp cache flush && wp rewrite flush"
+    
+    server_run "wp language plugin update --all"
+    server_run "wp language core update"
+    
+    server_run "/usr/bin/sudo /usr/local/sbin/purge_cache.sh"

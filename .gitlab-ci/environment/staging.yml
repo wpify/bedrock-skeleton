@@ -1,0 +1,7 @@
+variables:
+  SERVER_ADDR: webmistr.infra.church
+  SERVER_PATH: /var/www/czechadid.webmistr.cz
+  ENV_NAME: test
+  ENV_URL: https://czechadid.webmistr.cz/
+  ENV_USERNAME: test
+  ENV_PASSWORD: test

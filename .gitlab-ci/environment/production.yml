@@ -1,0 +1,5 @@
+variables:
+  SERVER_ADDR: seznam.infra.church
+  SERVER_PATH: /var/www/czechadid.cz
+  ENV_NAME: production
+  ENV_URL: https://www.czechadid.cz/

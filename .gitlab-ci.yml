@@ -1,0 +1,21 @@
+variables:
+  SERVER_USER: vasik
+  PLUGIN_SLUG: czechadid
+  THEME_SLUG: czechadid
+  PRIVATE_KEY: $WPIFY_PRIVATE_KEY
+  SATISPRESS_URL: $WPIFY_SATISPRESS_URL
+  SATISPRESS_USERNAME: $WPIFY_SATISPRESS_USERNAME
+  SATISPRESS_PASSWORD: $WPIFY_SATISPRESS_PASSWORD
+
+include:
+  - local: '.gitlab-ci/environment/staging.yml'
+    rules:
+      - if: $TASK == null && $CI_COMMIT_REF_PROTECTED && $CI_COMMIT_TAG == null
+
+  - local: '.gitlab-ci/environment/production.yml'
+    rules:
+      - if: $TASK == null && $CI_COMMIT_REF_PROTECTED && $CI_COMMIT_TAG
+
+  - local: '.gitlab-ci/pipeline/deploy.yml'
+    rules:
+      - if: $TASK == null && $CI_COMMIT_REF_PROTECTED
