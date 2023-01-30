@@ -21,7 +21,7 @@
   "require": {
     "php": ">=8.0",
     "composer/installers": "^2.2",
-    "mnsami/composer-custom-directory-installer": "^2.0.0"
+    "mnsami/composer-custom-directory-installer": "^2.0.0",
     "oscarotero/env": "^2.1",
     "php-di/php-di": "^7.0",
     "roots/bedrock-autoloader": "^1.0",
@@ -35,7 +35,7 @@
     "wpify/model": "^3.1",
     "wpify/plugin-utils": "^1.0",
     "wpify/snippets": "^3.1",
-    "wpify/templates": "^3.0",
+    "wpify/templates": "^3.0"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^v0.7.2",
@@ -67,8 +67,12 @@
     "wordpress-install-dir": "web/wp"
   },
   "scripts": {
-    "test": [
-      "phpcs"
+    "make-pot": [
+      "wp i18n make-pot . web/app/mu-plugins/wpify-skeleton/languages/wpify-skeleton.pot --include=\"src,web/app/mu-plugins/wpify-skeleton,web/app/themes/wpify-skeleton\" --domain=\"wpify-skeleton\""
+    ],
+    "make-json": [
+      "rm -rf web/app/mu-plugins/wpify-skeleton/languages/json",
+      "wp i18n make-json web/app/mu-plugins/wpify-skeleton/languages web/app/mu-plugins/wpify-skeleton/languages/json --no-purge --pretty-print"
     ]
   },
   "autoload": {

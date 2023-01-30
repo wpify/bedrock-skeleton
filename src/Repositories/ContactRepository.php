@@ -6,6 +6,9 @@ use Wpify\Model\Abstracts\AbstractPostRepository;
 use WpifySkeleton\Models\ContactModel;
 use WpifySkeleton\PostTypes\ContactPostType;
 
+/**
+ * @method ContactModel create()
+ */
 class ContactRepository extends AbstractPostRepository {
 	public function model(): string {
 		return ContactModel::class;

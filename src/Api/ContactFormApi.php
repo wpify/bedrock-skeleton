@@ -3,6 +3,7 @@
 namespace WpifySkeleton\Api;
 
 use WpifySkeleton\Managers\ApiManager;
+use WpifySkeleton\Repositories\ContactRepository;
 use WpifySkeleton\Settings;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -11,7 +12,6 @@ use WP_REST_Controller;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
-use Wpify\PluginUtils\PluginUtils;
 use Wpify\Templates\TwigTemplates;
 
 /**
@@ -20,12 +20,10 @@ use Wpify\Templates\TwigTemplates;
 class ContactFormApi extends WP_REST_Controller {
 	const ACTION_SUBMIT = 'contact-form/submit';
 
-	/**
-	 * Construct
-	 */
 	public function __construct(
 		private TwigTemplates $twig,
 		private Settings $settings,
+		private ContactRepository $contact_repository,
 	) {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
@@ -42,13 +40,13 @@ class ContactFormApi extends WP_REST_Controller {
 				'callback'            => array( $this, 'handle_submit' ),
 				'permission_callback' => '__return_true',
 				'args'                => array(
-					'name' => array(
+					'name'    => array(
 						'required' => true,
 					),
-					'email'    => array(
+					'email'   => array(
 						'required' => true,
 					),
-					'message'  => array(
+					'message' => array(
 						'required' => true,
 					),
 				),
@@ -72,41 +70,49 @@ class ContactFormApi extends WP_REST_Controller {
 			return new WP_REST_Response( 'error', 422 );
 		}
 
-		$name    = $request->get_param( 'name' );
-		$company = $request->get_param( 'company' );
-		$email   = $request->get_param( 'email' );
-		$phone   = $request->get_param( 'phone' );
-		$message = $request->get_param( 'message' );
-		$subject = sprintf( _x( 'New contact from web by %s', 'contact form', 'bomma' ), $name );
-		$items   = array(
+		$contact = $this->contact_repository->create();
+
+		$contact->name    = $request->get_param( 'name' );
+		$contact->company = $request->get_param( 'company' );
+		$contact->email   = $request->get_param( 'email' );
+		$contact->phone   = $request->get_param( 'phone' );
+		$contact->message = $request->get_param( 'message' );
+		$contact->title   = sprintf( '%s - %s - %s', $contact->name, $contact->email, date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( 'now' ) ) );
+
+		$this->contact_repository->save( $contact );
+
+		$items = array(
 			array(
-				'label' => _x( 'Name', 'contact form', 'bomma' ),
-				'value' => $name,
+				'label' => _x( 'Name', 'contact form', 'wpify-skeleton' ),
+				'value' => $contact->name,
 			),
 			array(
-				'label' => _x( 'Company', 'contact form', 'bomma' ),
-				'value' => $company,
+				'label' => _x( 'Company', 'contact form', 'wpify-skeleton' ),
+				'value' => $contact->company,
 			),
 			array(
-				'label' => _x( 'E-mail', 'contact form', 'bomma' ),
-				'value' => $email,
+				'label' => _x( 'E-mail', 'contact form', 'wpify-skeleton' ),
+				'value' => $contact->email,
 			),
 			array(
-				'label' => _x( 'Phone', 'contact form', 'bomma' ),
-				'value' => $phone,
+				'label' => _x( 'Phone', 'contact form', 'wpify-skeleton' ),
+				'value' => $contact->phone,
 			),
 			array(
-				'label' => _x( 'Message', 'contact form', 'bomma' ),
-				'value' => $message,
+				'label' => _x( 'Message', 'contact form', 'wpify-skeleton' ),
+				'value' => $contact->message,
 			),
 		);
+
+		$subject = sprintf( _x( 'New contact from web by %s', 'contact form', 'wpify-skeleton' ), $contact->name );
+
 		$args    = array(
 			'subject'       => $subject,
-			'headline'      => _x( 'You received a new contact!', 'contact form', 'bomma' ),
-			'introduction'  => _x( 'A new contact was sent from your website from Contact form. Please find details below:', 'contact form', 'bomma' ),
-			'content_title' => _x( 'Content of the form:', 'contact form', 'bomma' ),
+			'headline'      => _x( 'You received a new contact!', 'contact form', 'wpify-skeleton' ),
+			'introduction'  => _x( 'A new contact was sent from your website from Contact form. Please find details below:', 'contact form', 'wpify-skeleton' ),
+			'content_title' => _x( 'Content of the form:', 'contact form', 'wpify-skeleton' ),
 			'items'         => $items,
-			'outro'         => _x( "That's all we have for you for now, please contact potential customer and good luck!\n\nAlways yours WPify", 'contact form', 'bomma' ),
+			'outro'         => _x( "That's all we have for you for now, please contact potential customer and good luck!\n\nAlways yours WPify", 'contact form', 'wpify-skeleton' ),
 		);
 		$body    = $this->twig->render( 'emails/contact', null, $args );
 		$to      = $this->settings->get_option( Settings::FORM_EMAIL );

@@ -16,7 +16,7 @@ final class Plugin {
 		PostTypesManager $post_types_manager,
 		TaxonomiesManager $taxonomies_manager,
 		SnippetsManager $snippets_manager,
-		Backend $admin,
+		Backend $backend,
 		Frontend $frontend,
 		Settings $settings,
 		PluginUtils $utils,

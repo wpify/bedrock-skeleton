@@ -4,7 +4,6 @@ namespace WpifySkeleton\PostTypes;
 
 use Wpify\CustomFields\CustomFields;
 use Wpify\PluginUtils\PluginUtils;
-use Wpify\PostType\AbstractCustomPostType;
 
 class ContactPostType {
 	const KEY = 'contact';
@@ -57,7 +56,7 @@ class ContactPostType {
 				'menu_position'   => 50,
 				'menu_icon'       => 'dashicons-email-alt',
 				'capability_type' => array( 'contact', 'contacts' ),
-				'supports'        => array( 'title', 'custom-fields' ),
+				'supports'        => array( 'title' ),
 			)
 		);
 	}
