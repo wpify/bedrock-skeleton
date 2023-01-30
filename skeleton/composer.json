@@ -1,0 +1,60 @@
+{
+  "name": "wpify/wpify-skeleton",
+  "type": "project",
+  "license": "MIT",
+  "description": "Wpify Skeleton",
+  "homepage": "https://wpify.io",
+  "authors": [
+    {
+      "name": "WPify s.r.o.",
+      "email": "info@wpify.io",
+      "homepage": "https://wpify.io"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "mnsami/composer-custom-directory-installer": "^2.0.0",
+    "php-di/php-di": "^7.0",
+    "wpify/asset": "^1.2",
+    "wpify/custom-fields": "^3.7",
+    "wpify/log": "^1.0",
+    "wpify/model": "^3.1",
+    "wpify/plugin-utils": "^1.0",
+    "wpify/snippets": "^3.1",
+    "wpify/templates": "^3.0"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^v0.7.2",
+    "squizlabs/php_codesniffer": "^3.7.1",
+    "wp-cli/wp-cli": "^2.7",
+    "wp-coding-standards/wpcs": "^2.3",
+    "wpify/tracy": "^1.0.4"
+  },
+  "config": {
+    "allow-plugins": {
+      "mnsami/composer-custom-directory-installer": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "installer-paths": {
+      "web/app/vendor/{$vendor}/{$name}": ["wpify/custom-fields"]
+    }
+  },
+  "scripts": {
+    "make-pot": [
+      "wp i18n make-pot . web/app/mu-plugins/wpify-skeleton/languages/wpify-skeleton.pot --include=\"src,web/app/mu-plugins/wpify-skeleton,web/app/themes/wpify-skeleton\" --domain=\"wpify-skeleton\""
+    ],
+    "make-json": [
+      "rm -rf web/app/mu-plugins/wpify-skeleton/languages/json",
+      "wp i18n make-json web/app/mu-plugins/wpify-skeleton/languages web/app/mu-plugins/wpify-skeleton/languages/json --no-purge --pretty-print"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "WpifySkeleton\\": "src/"
+    }
+  }
+}

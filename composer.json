@@ -1,83 +1,13 @@
 {
-  "name": "wpify/wpify-skeleton",
-  "type": "project",
-  "license": "MIT",
-  "description": "WPify Skeleton",
-  "homepage": "https://wpify.io",
-  "authors": [
-    {
-      "name": "WPify s.r.o.",
-      "email": "info@wpify.io",
-      "homepage": "https://wpify.io"
-    }
-  ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org",
-      "only": ["wpackagist-plugin/*", "wpackagist-theme/*"]
-    }
-  ],
-  "require": {
-    "php": ">=8.0",
-    "composer/installers": "^2.2",
-    "mnsami/composer-custom-directory-installer": "^2.0.0",
-    "oscarotero/env": "^2.1",
-    "php-di/php-di": "^7.0",
-    "roots/bedrock-autoloader": "^1.0",
-    "roots/wordpress": "6.1.1",
-    "roots/wp-config": "1.0.0",
-    "roots/wp-password-bcrypt": "1.1.0",
-    "vlucas/phpdotenv": "^5.5",
-    "wpify/asset": "^1.2",
-    "wpify/custom-fields": "^3.7",
-    "wpify/log": "^1.0",
-    "wpify/model": "^3.1",
-    "wpify/plugin-utils": "^1.0",
-    "wpify/snippets": "^3.1",
-    "wpify/templates": "^3.0"
-  },
-  "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^v0.7.2",
-    "roave/security-advisories": "dev-latest",
-    "squizlabs/php_codesniffer": "^3.7.1",
-    "wp-cli/wp-cli": "^2.7",
-    "wp-coding-standards/wpcs": "^2.3",
-    "wpify/tracy": "^1.0.4"
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "preferred-install": "dist",
-    "allow-plugins": {
-      "composer/installers": true,
-      "roots/wordpress-core-installer": true,
-      "mnsami/composer-custom-directory-installer": true,
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "extra": {
-    "installer-paths": {
-      "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-      "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
-      "web/app/themes/{$name}/": ["type:wordpress-theme"],
-      "web/app/vendor/{$vendor}/{$name}": ["wpify/custom-fields"]
-    },
-    "wordpress-install-dir": "web/wp"
-  },
-  "scripts": {
-    "make-pot": [
-      "wp i18n make-pot . web/app/mu-plugins/wpify-skeleton/languages/wpify-skeleton.pot --include=\"src,web/app/mu-plugins/wpify-skeleton,web/app/themes/wpify-skeleton\" --domain=\"wpify-skeleton\""
+    "name": "wpify/bedrock-skeleton",
+    "description": "Skeleton for projects based on Bedrock by Roots.io",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "WPify",
+            "email": "info@wpify.io"
+        }
     ],
-    "make-json": [
-      "rm -rf web/app/mu-plugins/wpify-skeleton/languages/json",
-      "wp i18n make-json web/app/mu-plugins/wpify-skeleton/languages web/app/mu-plugins/wpify-skeleton/languages/json --no-purge --pretty-print"
-    ]
-  },
-  "autoload": {
-    "psr-4": {
-      "WpifySkeleton\\": "src/"
-    }
-  }
+    "require": {}
 }
