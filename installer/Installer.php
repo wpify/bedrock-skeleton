@@ -324,6 +324,7 @@ class Installer {
 	 */
 	private static function console( array $command, ?string $cwd, ConsoleOutput $output ) {
 		$process = new Process( $command, $cwd );
+		$process->setTimeout( 600 );
 
 		$process->setTty( true );
 		$process->mustRun( function ( $type, $buffer ) use ( $output ) {
