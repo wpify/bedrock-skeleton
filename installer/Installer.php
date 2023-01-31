@@ -78,6 +78,36 @@ class Installer {
 	}
 
 	/**
+	 * Create directory.
+	 */
+	private static function mkdir( string $path ): void {
+		if ( ! is_dir( $path ) ) {
+			mkdir( $path, 0755, true );
+		}
+	}
+
+	/**
+	 * Move file or folder.
+	 */
+	private static function move( string $source, string $destination ): void {
+		if ( is_dir( $source ) ) {
+			self::mkdir( $destination );
+
+			$files = array_diff( scandir( $source ), array( '.', '..' ) );
+
+			foreach ( $files as $file ) {
+				self::move( "$source/$file", "$destination/$file" );
+			}
+
+			rmdir( $source );
+		} else {
+			self::mkdir( dirname( $destination ) );
+
+			rename( $source, $destination );
+		}
+	}
+
+	/**
 	 * Get the case of the given name.
 	 *
 	 * @param string $name
@@ -330,7 +360,7 @@ class Installer {
 			$destination_dir = dirname( $destination );
 
 			if ( ! is_dir( $destination_dir ) ) {
-				mkdir( $destination_dir, 0777, true );
+				self::mkdir( $destination_dir );
 			}
 
 			$content = file_get_contents( $source );
@@ -404,15 +434,30 @@ class Installer {
 			$output
 		);
 
-		$output->writeln( "\n<info> ➤ Cleanup the files</info>\n" );
+		$output->writeln( "\n<info> ➤ Moving files to the final destination</info>\n" );
 
-		/*
-		self::delete( $root_dir . '/installer' );
-		self::delete( $root_dir . '/skeleton' );
-		self::delete( $root_dir . '/vendor' );
-		self::delete( $root_dir . '/.gitignore' );
-		self::delete( $root_dir . '/composer.json' );
-		self::delete( $root_dir . '/composer.json' );
-		*/
+		$clean = array_values( array_filter(
+			glob( $root_dir . '/{,.}*', GLOB_BRACE ),
+			function( $file ) {
+				return ! str_ends_with( $file, '/.' )
+				       && ! str_ends_with( $file, '/..' )
+				       && ! str_ends_with( $file, '/bedrock' );
+			},
+		) );
+
+		foreach ( $clean as $file ) {
+			self::delete( $root_dir . '/' . $file );
+		}
+
+		$files = self::list_files( $bedrock_dir );
+
+		foreach ( $files as $file ) {
+			self::move( $bedrock_dir . '/' . $file, $root_dir . '/' . $file );
+		}
+
+		self::delete( $bedrock_dir );
+
+
+		$output->writeln( "\n<info> ➤ DONE</info>\n" );
 	}
 }
