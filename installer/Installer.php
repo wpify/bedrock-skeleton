@@ -448,7 +448,9 @@ class Installer {
 			function ( $file ) {
 				return ! str_ends_with( $file, '/.' )
 				       && ! str_ends_with( $file, '/..' )
-				       && ! str_ends_with( $file, '/bedrock' );
+				       && ! str_ends_with( $file, '/.git' )
+				       && ! str_ends_with( $file, '/bedrock' )
+				       && ! str_ends_with( $file, '/installer' );
 			},
 		) );
 
@@ -462,8 +464,8 @@ class Installer {
 			self::move( $bedrock_dir . '/' . $file, $root_dir . '/' . $file );
 		}
 
-		self::delete( $bedrock_dir );
-
+		self::delete( $root_dir . '/bedrock' );
+		self::delete( $root_dir . '/installer' );
 
 		$message = <<<EOT
 <info> ➤ DONE</info>
