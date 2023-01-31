@@ -460,6 +460,7 @@ class Installer {
 		}
 
 		self::delete( $root_dir . '/bedrock' );
+		self::delete( $root_dir . '/skeleton' );
 		self::delete( $root_dir . '/installer' );
 
 		$message = <<<EOT
