@@ -2,7 +2,6 @@
 
 namespace WpifySkeleton;
 
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Process\Process;
 
@@ -72,7 +71,7 @@ class Installer {
 			}
 
 			rmdir( $path );
-		} else {
+		} elseif ( is_file( $path ) ) {
 			unlink( $path );
 		}
 	}
@@ -336,17 +335,25 @@ class Installer {
 	 * Create new project.
 	 */
 	public static function post_create_project() {
-		$output = new ConsoleOutput();
+		$output       = new ConsoleOutput();
+		$root_dir     = dirname( __DIR__ );
+		$skeleton_dir = $root_dir . '/skeleton';
+		$bedrock_dir  = $root_dir . '/bedrock';
 
 		$output->writeln( "\n<info> ➤ Initializing</info>\n" );
 
-		$root_dir      = dirname( __DIR__ );
-		$skeleton_dir  = $root_dir . '/skeleton';
-		$bedrock_dir   = $root_dir . '/bedrock';
-		$project_name  = 'testovaci-projekt';
+		self::delete( $bedrock_dir );
+		self::console( array( 'composer', 'create-project', 'roots/bedrock', 'bedrock' ), $root_dir, $output );
+
+		$project_name  = basename( $root_dir );
 		$skeleton_name = 'wpify-skeleton';
-		$source_files  = self::list_files( $skeleton_dir );
-		$transfers     = array(
+
+		if ( $project_name === $skeleton_name ) {
+			$project_name = 'generated-project';
+		}
+
+		$source_files = self::list_files( $skeleton_dir );
+		$transfers    = array(
 			$bedrock_dir . '/.env.example' => $bedrock_dir . '/.env',
 		);
 
@@ -438,7 +445,7 @@ class Installer {
 
 		$clean = array_values( array_filter(
 			glob( $root_dir . '/{,.}*', GLOB_BRACE ),
-			function( $file ) {
+			function ( $file ) {
 				return ! str_ends_with( $file, '/.' )
 				       && ! str_ends_with( $file, '/..' )
 				       && ! str_ends_with( $file, '/bedrock' );
@@ -458,6 +465,30 @@ class Installer {
 		self::delete( $bedrock_dir );
 
 
-		$output->writeln( "\n<info> ➤ DONE</info>\n" );
+		$message = <<<EOT
+<info> ➤ DONE</info>
+
+<info>All is ready to do some work!</info>
+
+<comment>Start your ddev server with command:</comment>
+ddev start
+
+<comment>Start developing frontend assets with command:</comment>
+npm run start
+
+<comment>Build frontend assets for production with command:</comment>
+npm run build
+
+<comment>Generate pot file with command:</comment>
+composer run make-pot
+
+<comment>After translating the pot file, generate json files for frontend translations with command:</comment>
+composer run make-json
+
+<info>Happy development!</info>
+
+EOT;
+		$output->writeln( $message );
+
 	}
 }
