@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+
+echo -e "\e[1;34mSetting up variables\e[0m"
+PROJECT_PATH=$(realpath $1/..)
+FILES_PATH=$1
+
+echo -e "\e[1;34mSyncing files\e[0m from $FILES_PATH/ to $PROJECT_PATH/"
+rsync -av --exclude=".gitlab-ci" "$FILES_PATH/" "$PROJECT_PATH/"
+
+echo -e "\e[1;34mRemoving cache\e[0m $PROJECT_PATH/web/app/cache"
+rm -rf $PROJECT_PATH/web/app/cache
+
+# echo -e "\e[1;34mPurging nginx cache\e[0m"
+# /usr/bin/sudo /usr/local/sbin/purge_cache.sh
+
+cd $PROJECT_PATH
+
+echo -e "\e[1;34mUpdating database\e[0m"
+wp core update-db
+# wp wc update
+
+echo -e "\e[1;34mFlushing WordPress cache and permalinks\e[0m"
+wp cache flush
+wp rewrite flush
+
+echo -e "\e[1;34mUpdating translations\e[0m"
+wp --all language plugin update
+wp --all language theme update
+wp language core update
+
+echo -e "\e[1;34mCleaning up\e[0m"
+rm -rf $FILES_PATH
+
+echo -e "\e[1;34mDONE\e[0m"

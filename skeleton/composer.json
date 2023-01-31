@@ -12,7 +12,6 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
     "mnsami/composer-custom-directory-installer": "^2.0.0",
     "php-di/php-di": "^7.0",
     "wpify/asset": "^1.2",

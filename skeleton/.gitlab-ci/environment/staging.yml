@@ -1,7 +1,7 @@
 variables:
   SERVER_ADDR: webmistr.infra.church
-  SERVER_PATH: /var/www/czechadid.webmistr.cz
-  ENV_NAME: test
-  ENV_URL: https://czechadid.webmistr.cz/
+  SERVER_PATH: /var/www/wpify-skeleton.webmistr.cz/deploy-$CI_COMMIT_SHA
+  ENV_NAME: staging
+  ENV_URL: https://wpify-skeleton.webmistr.cz/
   ENV_USERNAME: test
   ENV_PASSWORD: test

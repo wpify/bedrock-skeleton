@@ -1,13 +1,37 @@
 {
-    "name": "wpify/bedrock-skeleton",
-    "description": "Skeleton for projects based on Bedrock by Roots.io",
-    "type": "project",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "WPify",
-            "email": "info@wpify.io"
-        }
-    ],
-    "require": {}
+  "name": "wpify/bedrock-skeleton",
+  "description": "Skeleton for projects based on Bedrock by Roots.io",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "WPify",
+      "email": "info@wpify.io"
+    }
+  ],
+  "scripts": {
+    "post-create-project-cmd": [
+      "rm -rf bedrock",
+      "composer create-project roots/bedrock bedrock",
+      "WpifySkeleton\\Installer::post_create_project"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "WpifySkeleton\\": "installer/"
+    }
+  },
+  "require": {
+    "nette/utils": "^3.2",
+    "nette/php-generator": "^4.0",
+    "nikic/php-parser": "^4.15",
+    "symfony/process": "^6.2",
+    "tracy/tracy": "^2.9",
+    "ext-iconv": "*",
+    "symfony/console": "^6.2",
+    "composer-plugin-api": "^2.3"
+  },
+  "require-dev": {
+    "composer/composer": "^2.5"
+  }
 }

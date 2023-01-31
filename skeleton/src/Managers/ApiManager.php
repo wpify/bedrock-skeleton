@@ -7,6 +7,8 @@ use WpifySkeleton\Api\ContactFormApi;
 final class ApiManager {
 	const PATH = 'wpify-skeleton/v1';
 
+	private string $rest_url = '';
+
 	public function __construct(
 		ContactFormApi $contact_form_api,
 	) {

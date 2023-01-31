@@ -9,7 +9,7 @@ include:
 assets:
   stage: .pre
   extends: .node
-  image: node:16
+  image: node:18
   artifacts:
     paths:
       - $CI_PROJECT_DIR/web/app/mu-plugins/$PLUGIN_SLUG/build
@@ -46,6 +46,7 @@ deploy:
       "web/app/themes/$THEME_SLUG/style.css"
 
     server_deploy \
+      .gitlab-ci/scripts/ \
       wp-cli.yml \
       assets/ \
       config/ \
@@ -56,17 +57,8 @@ deploy:
       web/app/plugins/ \
       web/app/themes/ \
       web/app/vendor/ \
-      web/app/vendor/ \
-      web/wp/*.* \
+      web/wp/*.php \
       web/wp/wp-admin/ \
       web/wp/wp-includes/
-
-    server_run "rm -rf $SERVER_PATH/web/app/cache"
-    server_run "/usr/bin/sudo /usr/local/sbin/purge_cache.sh"
     
-    server_run "wp cache flush && wp rewrite flush"
-    
-    server_run "wp language plugin update --all"
-    server_run "wp language core update"
-    
-    server_run "/usr/bin/sudo /usr/local/sbin/purge_cache.sh"
+    server_run "$SERVER_PATH/.gitlab-ci/scripts/server-deploy $SERVER_PATH"
