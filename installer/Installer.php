@@ -287,7 +287,7 @@ class Installer {
 			'wp i18n make-json web/app/mu-plugins/testovaci-projekt/languages web/app/mu-plugins/testovaci-projekt/languages/json --no-purge --pretty-print',
 		);
 
-		$composer['autoload']['psr4'][ self::get_case( $project_name, 'pascal' ) . '\\' ] = 'src/';
+		$composer['autoload']['psr-4'][ self::get_case( $project_name, 'pascal' ) . '\\' ] = 'src/';
 
 		unset( $composer['support'] );
 		unset( $composer['scripts']['test'] );
@@ -390,12 +390,6 @@ class Installer {
 		}
 
 		$output->writeln( "\n<info> ➤ Installing composer dependencies</info>\n" );
-
-		self::console(
-			array( 'composer', 'remove', 'wpackagist-theme/twentytwentythree', '--ignore-platform-reqs' ),
-			$bedrock_dir,
-			$output
-		);
 
 		$source_composerjson = json_decode( file_get_contents( $skeleton_dir . '/composer.json' ), true );
 		$composer_deps       = array_keys( $source_composerjson['require'] );
