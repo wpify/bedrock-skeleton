@@ -466,6 +466,9 @@ class Installer {
 
 <info>All is ready to do some work!</info>
 
+<comment>Go to the project directory first:</comment>
+cd $project_name
+
 <comment>Start your ddev server with command:</comment>
 ddev start
 
