@@ -1,3 +1,5 @@
 <?php
-switch_theme( 'wpify-skeleton' );
-unlink( __FILE__ );
+add_action( 'init', function () {
+	switch_theme( 'wpify-skeleton' );
+	unlink( __FILE__ );
+} );
