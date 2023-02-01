@@ -25,7 +25,8 @@
     "tracy/tracy": "^2.9",
     "ext-iconv": "*",
     "symfony/console": "~6.0.0",
-    "composer-plugin-api": "^2.3"
+    "composer-plugin-api": "^2.3",
+    "wpify/helpers": "^1.0"
   },
   "require-dev": {
     "composer/composer": "^2.5"

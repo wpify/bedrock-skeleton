@@ -4,6 +4,8 @@ namespace WpifySkeleton;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Process\Process;
+use Wpify\Helpers\Filesystem;
+use Wpify\Helpers\Strings;
 
 require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 
@@ -11,194 +13,6 @@ require_once dirname( __DIR__ ) . '/vendor/autoload.php';
  * Installer of the new project based on Bedrock with WPify packages.
  */
 class Installer {
-	/**
-	 * List all files in given directory.
-	 *
-	 * @param string $path
-	 *
-	 * @return array
-	 */
-	private static function recursive_files( string $path ): array {
-		$files = array();
-
-		if ( is_dir( $path ) ) {
-			if ( $handle = opendir( $path ) ) {
-				while ( ( $name = readdir( $handle ) ) !== false ) {
-					if ( ! in_array( $name, array( '..', '.' ) ) ) {
-						if ( ! is_dir( $path . "/" . $name ) ) {
-							$files[] = $path . '/' . $name;
-						} else {
-							array_push( $files, ...self::recursive_files( $path . "/" . $name ) );
-						}
-					}
-				}
-
-				closedir( $handle );
-			}
-		}
-
-		sort( $files );
-
-		return $files;
-	}
-
-	/**
-	 * List all files in given directory.
-	 *
-	 * @param string $path
-	 *
-	 * @return array
-	 */
-	private static function list_files( string $path ): array {
-		$files = self::recursive_files( $path );
-
-		return array_map( function ( $file_path ) use ( $path ) {
-			return substr( $file_path, strlen( $path ) + 1 );
-		}, $files );
-	}
-
-	/**
-	 * Delete recursively folder.
-	 *
-	 * @param string $path
-	 */
-	private static function delete( string $path ): void {
-		if ( is_dir( $path ) ) {
-			$files = array_diff( scandir( $path ), array( '.', '..' ) );
-
-			foreach ( $files as $file ) {
-				( is_dir( "$path/$file" ) ) ? self::delete( "$path/$file" ) : unlink( "$path/$file" );
-			}
-
-			rmdir( $path );
-		} elseif ( is_file( $path ) ) {
-			unlink( $path );
-		}
-	}
-
-	/**
-	 * Create directory.
-	 */
-	private static function mkdir( string $path ): void {
-		if ( ! is_dir( $path ) ) {
-			mkdir( $path, 0755, true );
-		}
-	}
-
-	/**
-	 * Move file or folder.
-	 */
-	private static function move( string $source, string $destination ): void {
-		if ( is_dir( $source ) ) {
-			self::mkdir( $destination );
-
-			$files = array_diff( scandir( $source ), array( '.', '..' ) );
-
-			foreach ( $files as $file ) {
-				self::move( "$source/$file", "$destination/$file" );
-			}
-
-			rmdir( $source );
-		} else {
-			self::mkdir( dirname( $destination ) );
-
-			rename( $source, $destination );
-		}
-	}
-
-	/**
-	 * Get the case of the given name.
-	 *
-	 * @param string $name
-	 * @param string $case
-	 *
-	 * @return string
-	 */
-	private static function get_case( string $name, string $case ) {
-		// remove accents
-		$name = str_replace( '\'', '', iconv( 'UTF-8', 'ASCII//TRANSLIT', $name ) );
-
-		// add space before capital letters
-		$name = preg_replace( '/(?<!\ )[A-Z]/', ' $0', $name );
-
-		// remove all non-alphanumeric characters
-		$name = trim( preg_replace( '/[^a-zA-Z0-9]/', ' ', $name ) );
-
-		// make all lowercase
-		$name = strtolower( $name );
-
-		// split into words
-		$name = preg_split( '/\s+/', $name );
-
-		switch ( $case ) {
-			case 'camel':
-			{
-				return lcfirst( join( '', array_map( fn( $word ) => ucfirst( $word ), $name ) ) );
-			}
-			case 'pascal':
-			{
-				return join( '', array_map( fn( $word ) => ucfirst( $word ), $name ) );
-			}
-			case 'snake':
-			{
-				return join( '_', $name );
-			}
-			case 'kebab':
-			{
-				return join( '-', $name );
-			}
-			case 'constant':
-			{
-				return join( '_', array_map( 'strtoupper', $name ) );
-			}
-			case 'sentence':
-			{
-				return join( ' ', array_map( 'ucfirst', $name ) );
-			}
-			default:
-			{
-				return $name;
-			}
-		}
-	}
-
-	/**
-	 * Replace all cases of the given name.
-	 *
-	 * @param string $search
-	 * @param string $replace
-	 * @param string $subject
-	 *
-	 * @return string
-	 */
-	private static function replace_cases( string $search, string $replace, string $subject ) {
-		$cases = array( 'camel', 'pascal', 'snake', 'kebab', 'constant', 'sentence' );
-
-		foreach ( $cases as $case ) {
-			$subject = str_replace( self::get_case( $search, $case ), self::get_case( $replace, $case ), $subject );
-		}
-
-		return $subject;
-	}
-
-	/**
-	 * Generate random password.
-	 *
-	 * @param int $length
-	 *
-	 * @return string
-	 */
-	private static function generate_password( int $length = 64 ) {
-		$chars    = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
-		$password = '';
-
-		for ( $i = 0; $i < $length; $i ++ ) {
-			$password .= substr( $chars, rand( 0, strlen( $chars ) - 1 ), 1 );
-		}
-
-		return $password;
-	}
-
 	/**
 	 * Modify .env file for the new project.
 	 *
@@ -208,50 +22,32 @@ class Installer {
 	 * @return string
 	 */
 	private static function dotenv( string $content, string $project_name ) {
-		$lines = preg_split( '/\n/', $content );
-
-		foreach ( $lines as $index => $line ) {
-			$line = trim( $line );
-
+		$preprocess_line = function ( $line ) {
+			// replace commented DB_HOST with uncommented
 			if ( str_starts_with( $line, '# DB_HOST=' ) ) {
 				$line = trim( trim( $line, '# ' ) );
 			}
 
-			if ( str_starts_with( $line, '#' ) || empty( $line ) || ! str_contains( $line, '=' ) ) {
-				continue;
-			}
+			return $line;
+		};
 
-			[ $variable, $value ] = preg_split( '/\s*=\s*/', $line, 2 );
-			$variable = trim( $variable );
-			$value    = trim( $value );
-			$quote    = '';
-
-			if ( str_starts_with( $value, '\'' ) && str_ends_with( $value, '\'' ) ) {
-				$quote = '\'';
-			} elseif ( str_starts_with( $value, '"' ) && str_ends_with( $value, '"' ) ) {
-				$quote = '"';
-			} elseif ( str_starts_with( $value, '`' ) && str_ends_with( $value, '`' ) ) {
-				$quote = '"';
-			}
-
-			$value = trim( $value, $quote );
-
-			if ( in_array( $variable, array( 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST' ) ) ) {
+		$set_value = function ( $name, $value ) use ( $project_name ) {
+			if ( in_array( $name, array( 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST' ) ) ) {
 				$value = 'db';
-			} elseif ( 'WP_HOME' === $variable ) {
+			} elseif ( 'WP_HOME' === $name ) {
 				$value = 'https://www.' . $project_name . '.test';
-			} elseif ( in_array( $variable, array( 'AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT' ) ) ) {
-				$value = self::generate_password();
+			} elseif ( in_array( $name, array( 'AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT' ) ) ) {
+				$value = Strings::generate_password();
 			}
 
-			$lines[ $index ] = $variable . '=' . $quote . $value . $quote;
-		}
+			return $value;
+		};
 
-		return implode( "\n", $lines );
+		return Strings::modify_dotenv( $content, $set_value, $preprocess_line );
 	}
 
 	/**
-	 * Modify package.json file for the new project.
+	 * Modify composer.json file for the new project.
 	 *
 	 * @param string $content
 	 * @param string $project_name
@@ -261,8 +57,8 @@ class Installer {
 	private static function composerjson( string $content, string $project_name ) {
 		$composer = json_decode( $content, true );
 
-		$composer['name']           = 'wpify/' . self::get_case( $project_name, 'kebab' );
-		$composer['description']    = self::get_case( $project_name, 'sentence' );
+		$composer['name']           = 'wpify/' . Strings::get_case( $project_name, 'kebab' );
+		$composer['description']    = Strings::get_case( $project_name, 'sentence' );
 		$composer['homepage']       = 'https://wpify.io';
 		$composer['keywords']       = array();
 		$composer['authors']        = array(
@@ -287,7 +83,7 @@ class Installer {
 			'wp i18n make-json web/app/mu-plugins/testovaci-projekt/languages web/app/mu-plugins/testovaci-projekt/languages/json --no-purge --pretty-print',
 		);
 
-		$composer['autoload']['psr-4'][ self::get_case( $project_name, 'pascal' ) . '\\' ] = 'src/';
+		$composer['autoload']['psr-4'][ Strings::get_case( $project_name, 'pascal' ) . '\\' ] = 'src/';
 
 		unset( $composer['support'] );
 		unset( $composer['scripts']['test'] );
@@ -343,7 +139,7 @@ class Installer {
 
 		$output->writeln( "\n<info> ➤ Initializing</info>\n" );
 
-		self::delete( $bedrock_dir );
+		Filesystem::delete( $bedrock_dir );
 		self::console( array( 'composer', 'create-project', 'roots/bedrock', 'bedrock' ), $root_dir, $output );
 
 		$project_name  = basename( $root_dir );
@@ -353,13 +149,13 @@ class Installer {
 			$project_name = 'generated-project';
 		}
 
-		$source_files = self::list_files( $skeleton_dir );
+		$source_files = Filesystem::list_files( $skeleton_dir );
 		$transfers    = array(
 			$bedrock_dir . '/.env.example' => $bedrock_dir . '/.env',
 		);
 
 		foreach ( $source_files as $source_file ) {
-			$transfers[ $skeleton_dir . '/' . $source_file ] = $bedrock_dir . '/' . self::replace_cases( $skeleton_name, $project_name, $source_file );
+			$transfers[ $skeleton_dir . '/' . $source_file ] = $bedrock_dir . '/' . Strings::replace_cases( $skeleton_name, $project_name, $source_file );
 		}
 
 		$output->writeln( "\n<info> ➤ Copying files</info>\n" );
@@ -368,11 +164,11 @@ class Installer {
 			$destination_dir = dirname( $destination );
 
 			if ( ! is_dir( $destination_dir ) ) {
-				self::mkdir( $destination_dir );
+				Filesystem::mkdir( $destination_dir );
 			}
 
 			$content = file_get_contents( $source );
-			$content = self::replace_cases( $skeleton_name, $project_name, $content );
+			$content = Strings::replace_cases( $skeleton_name, $project_name, $content );
 
 			if ( 'composer.json' === basename( $destination ) ) {
 				$content = file_get_contents( $destination );
@@ -441,27 +237,25 @@ class Installer {
 		$clean = array_values( array_filter(
 			glob( $root_dir . '/{,.}*', GLOB_BRACE ),
 			function ( $file ) {
-				return ! str_ends_with( $file, '/.' )
-				       && ! str_ends_with( $file, '/..' )
-				       && ! str_ends_with( $file, '/.git' )
-				       && ! str_ends_with( $file, '/bedrock' )
-				       && ! str_ends_with( $file, '/installer' );
+				return is_file( $file ) && ! str_ends_with( $file, '/README.md' );
 			},
 		) );
 
 		foreach ( $clean as $file ) {
-			self::delete( $root_dir . '/' . $file );
+			Filesystem::delete( $root_dir . '/' . $file );
 		}
 
-		$files = self::list_files( $bedrock_dir );
+		$files = array_filter( Filesystem::list_files( $bedrock_dir ), function ( $file ) {
+			return 'README.md' !== $file;
+		} );
 
 		foreach ( $files as $file ) {
-			self::move( $bedrock_dir . '/' . $file, $root_dir . '/' . $file );
+			Filesystem::move( $bedrock_dir . '/' . $file, $root_dir . '/' . $file );
 		}
 
-		self::delete( $root_dir . '/bedrock' );
-		self::delete( $root_dir . '/skeleton' );
-		self::delete( $root_dir . '/installer' );
+		Filesystem::delete( $root_dir . '/bedrock' );
+		Filesystem::delete( $root_dir . '/skeleton' );
+		Filesystem::delete( $root_dir . '/installer' );
 
 		$message = <<<EOT
 <info> ➤ DONE</info>
@@ -490,6 +284,5 @@ composer run make-json
 
 EOT;
 		$output->writeln( $message );
-
 	}
 }
