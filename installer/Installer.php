@@ -253,8 +253,10 @@ class Installer {
 			Filesystem::move( $bedrock_dir . '/' . $file, $root_dir . '/' . $file );
 		}
 
-		$gitignore = file_get_contents( $root_dir . '/.gitignore' );
-		$gitignore = str_replace( 'web/app/mu-plugins/*/', "\n!web/app/mu-plugins/$project_name/", $gitignore );
+		$append_after = 'web/app/mu-plugins/*/';
+		$gitignore    = file_get_contents( $root_dir . '/.gitignore' );
+		$gitignore    = str_replace( 'web/app/mu-plugins/*/', "$append_after\n!web/app/mu-plugins/$project_name/", $gitignore );
+
 		file_put_contents( $root_dir . '/.gitignore', $gitignore );
 
 		Filesystem::delete( $root_dir . '/bedrock' );
