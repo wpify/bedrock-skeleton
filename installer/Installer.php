@@ -256,6 +256,7 @@ class Installer {
 		$append_after = 'web/app/mu-plugins/*/';
 		$gitignore    = file_get_contents( $root_dir . '/.gitignore' );
 		$gitignore    = str_replace( 'web/app/mu-plugins/*/', "$append_after\n!web/app/mu-plugins/$project_name/", $gitignore );
+		$gitignore    .= "\n\n# Ignore node_modules\nnode_modules\n";
 
 		file_put_contents( $root_dir . '/.gitignore', $gitignore );
 
