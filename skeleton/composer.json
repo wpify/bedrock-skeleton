@@ -17,7 +17,7 @@
     "wpify/asset": "^1.2",
     "wpify/custom-fields": "^3.7",
     "wpify/log": "^1.0",
-    "wpify/model": "^3.1",
+    "wpify/model": "^4.0",
     "wpify/plugin-utils": "^1.0",
     "wpify/snippets": "^3.1",
     "wpify/templates": "^3.0"

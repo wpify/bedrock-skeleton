@@ -2,15 +2,25 @@
 
 namespace WpifySkeleton\Models;
 
-use Wpify\Model\Abstracts\AbstractPostModel;
+use Wpify\Model\Attributes\Meta;
+use Wpify\Model\Post;
 
 /**
  * PostModel.
  */
-class ContactModel extends AbstractPostModel {
+class ContactModel extends Post {
+	#[Meta]
 	public string $name = '';
+
+	#[Meta]
 	public string $company = '';
+
+	#[Meta]
 	public string $email = '';
+
+	#[Meta]
 	public string $phone = '';
+
+	#[Meta]
 	public string $message = '';
 }

@@ -2,19 +2,19 @@
 
 namespace WpifySkeleton\Repositories;
 
-use Wpify\Model\Abstracts\AbstractPostRepository;
+use Wpify\Model\PostRepository;
 use WpifySkeleton\Models\ContactModel;
 use WpifySkeleton\PostTypes\ContactPostType;
 
 /**
  * @method ContactModel create()
  */
-class ContactRepository extends AbstractPostRepository {
+class ContactRepository extends PostRepository {
 	public function model(): string {
 		return ContactModel::class;
 	}
 
-	static function post_type(): string {
-		return ContactPostType::KEY;
+	public function post_types(): array {
+		return array( ContactPostType::KEY );
 	}
 }

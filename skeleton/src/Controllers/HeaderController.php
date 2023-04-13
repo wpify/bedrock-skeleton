@@ -2,6 +2,8 @@
 
 namespace WpifySkeleton\Controllers;
 
+use Wpify\Model\Exceptions\RepositoryNotFoundException;
+use Wpify\Model\Exceptions\RepositoryNotInitialized;
 use Wpify\Model\MenuItem;
 use Wpify\Model\MenuRepository;
 use WpifySkeleton\Frontend;
@@ -15,11 +17,13 @@ class HeaderController {
 	 * Returns the primary menu.
 	 *
 	 * @return MenuItem[]
+	 * @throws RepositoryNotFoundException
+	 * @throws RepositoryNotInitialized
 	 */
 	public function menu(): array {
 		$menu = $this->menu_repository->get( Frontend::PRIMARY_MENU );
 
-		return $menu->items;
+		return $menu->children;
 	}
 
 	public function scripts_header(): string {

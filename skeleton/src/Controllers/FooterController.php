@@ -19,7 +19,7 @@ class FooterController {
 	public function menu(): array {
 		$menu = $this->menu_repository->get( Frontend::FOOTER_MENU );
 
-		return $menu->items;
+		return $menu->children;
 	}
 
 	public function scripts_body_end(): string {
