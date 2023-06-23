@@ -5,12 +5,14 @@ namespace WpifySkeleton;
 use WpifySkeleton\Managers\ApiManager;
 use WpifySkeleton\Managers\BlocksManager;
 use WpifySkeleton\Managers\PostTypesManager;
+use WpifySkeleton\Managers\RepositoryManager;
 use WpifySkeleton\Managers\SnippetsManager;
 use WpifySkeleton\Managers\TaxonomiesManager;
 use Wpify\PluginUtils\PluginUtils;
 
 final class Plugin {
 	public function __construct(
+		RepositoryManager $repository_manager,
 		ApiManager $api_manager,
 		BlocksManager $blocks_manager,
 		PostTypesManager $post_types_manager,
