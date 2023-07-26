@@ -3,13 +3,19 @@
 namespace WpifySkeleton\Managers;
 
 use Wpify\Model\Manager;
+use DI\Container;
+use WpifySkeleton\Repositories\ContactRepository;
 
 class RepositoryManager {
 	public function __construct(
-		Manager $manager
+		Container $container,
+		Manager $manager,
+		ContactRepository $contact_repository,
 	) {
 		foreach ( $manager->get_repositories() as $repository ) {
-			wpify_skeleton_container()->set( $repository::class, $repository );
+			$container->set( $repository::class, $repository );
 		}
+
+		$manager->register_repository( $contact_repository );
 	}
 }
