@@ -27,7 +27,7 @@ return array(
 			)
 		),
 	PluginUtils::class        => ( new CreateDefinitionHelper() )
-		->constructor( __DIR__ . '/wpify-skeleton.php' ),
+		->constructor( __DIR__ . '/web/app/mu-plugins/wpify-skeleton/wpify-skeleton.php' ),
 	Manager::class        => ( new CreateDefinitionHelper() )
-		->constructor( [] ),
+		->constructor( array() ),
 );
