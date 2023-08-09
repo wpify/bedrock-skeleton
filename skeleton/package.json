@@ -2,9 +2,7 @@
   "scripts": {
     "start": "wp-scripts start",
     "build": "wp-scripts build",
-    "packages-update": "wp-scripts packages-update",
-    "ddevcerts": "docker cp ddev-router:/etc/nginx/certs .ssl",
-    "prestart": "npm run ddevcerts"
+    "packages-update": "wp-scripts packages-update"
   },
   "devDependencies": {
     "@wordpress/scripts": "^25.2.0",

@@ -55,11 +55,11 @@ module.exports = {
         './src/**/*.php',
       ],
       ...(
-        fs.existsSync('./.ssl/certs/master.key') && fs.existsSync('./.ssl/certs/master.crt')
+        fs.existsSync('./.ddev/traefik/certs/wpify-skeleton.key') && fs.existsSync('./.ddev/traefik/certs/wpify-skeleton.crt')
           ? {
             https: {
-              key: './.ssl/certs/master.key',
-              cert: './.ssl/certs/master.crt',
+              key: './.ddev/traefik/certs/wpify-skeleton.key',
+              cert: './.ddev/traefik/certs/wpify-skeleton.crt',
             },
           }
           : {}
