@@ -1,89 +1,91 @@
 const path = require('path');
 const fs = require('fs');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
-const globImporter = require('node-sass-glob-importer');
 const defaultConfig = require('@wordpress/scripts/config/webpack.config');
-const CopyAfterCompilationWebpackPlugin = require('./.webpack/CopyAfterCompilationWebpackPlugin');
+const {merge} = require('webpack-merge');
+const WooCommerceDependencyExtractionWebpackPlugin = require('@woocommerce/dependency-extraction-webpack-plugin');
 
-module.exports = {
-  ...defaultConfig,
+const wcDepMap = {
+  '@woocommerce/blocks-registry': ['wc', 'wcBlocksRegistry'],
+  '@woocommerce/settings': ['wc', 'wcSettings'],
+  '@woocommerce/*': ['wc', '*'],
+};
+
+const wcHandleMap = {
+  '@woocommerce/blocks-registry': 'wc-blocks-registry',
+  '@woocommerce/settings': 'wc-settings',
+  '@woocommerce/*': ['wc', '*'],
+};
+
+const requestToExternal = (request) => {
+  console.log(request);
+  if (wcDepMap[request]) {
+    return wcDepMap[request];
+  }
+};  
+
+const requestToHandle = (request) => {
+  if (wcHandleMap[request]) {
+    return wcHandleMap[request];
+  }
+};
+
+
+module.exports = merge(defaultConfig, {
   entry: {
-    'plugin': [
-      './assets/scripts/plugin.js',
-      './assets/styles/plugin.scss',
+    'plugin': '/assets/styles/plugin.pcss',
+    'mini-cart': [
+      '/assets/apps/mini-cart/app.js'
     ],
-    'block-editor': './assets/scripts/block-editor.js',
-    'editor-style': './assets/styles/editor-style.scss',
-    'contact-form': './assets/apps/contact-form/contact-form.js',
+    'side-cart': [
+      '/assets/apps/side-cart/app.js'
+    ],
+    'search': [
+      '/assets/apps/search/app.js'
+    ]
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'assets/apps'),
+      '@styles': path.resolve(__dirname, 'assets/styles'),
+    },
   },
   output: {
-    ...defaultConfig.output,
-    path: path.resolve('web/app/mu-plugins/wpify-skeleton/build'),
-  },
-  module: {
-    ...defaultConfig.module,
-    rules: [
-      ...defaultConfig.module.rules.map((rule) => {
-        if (rule.test.test('.scss')) {
-          rule.use.forEach(use => {
-            if (use.loader === require.resolve('sass-loader')) {
-              use.options.sassOptions = {
-                ...(use.options.sassOptions || null),
-                importer: globImporter(),
-              };
-            }
-          });
-        }
-
-        return rule;
-      }),
-    ],
+    path: path.resolve(__dirname, 'web/app/themes/wpify-skeleton/build'),
   },
   plugins: [
-    ...defaultConfig.plugins,
+    ...defaultConfig.plugins.filter(
+        (plugin) =>
+            plugin.constructor.name !== 'DependencyExtractionWebpackPlugin'
+    ),
+    new WooCommerceDependencyExtractionWebpackPlugin({
+      requestToExternal,
+      requestToHandle
+    }),
+
     new BrowserSyncPlugin({
       files: [
-        './web/app/mu-plugins/wpify-skeleton/build/**/*.css',
-        './web/app/mu-plugins/wpify-skeleton/build/**/*.js',
-        './web/app/mu-plugins/wpify-skeleton/build/**/*.svg',
-        './web/app/mu-plugins/wpify-skeleton/templates/**/*.php',
-        './web/app/themes/wpify-skeleton/**/*.twig',
-        './web/app/themes/wpify-skeleton/**/*.php',
-        './web/app/themes/wpify-skeleton/*.php',
-        './web/app/themes/wpify-skeleton/**/*.php',
-        './src/**/*.php',
+        './build/**/*.css',
+        './build/**/*.js',
+        './build/**/*.svg',
+        './**/*.twig',
+        './**/*.php',
+        './*.php',
+        './**/*.php',
       ],
       ...(
-        fs.existsSync('./.ddev/traefik/certs/wpify-skeleton.key') && fs.existsSync('./.ddev/traefik/certs/wpify-skeleton.crt')
-          ? {
-            https: {
-              key: './.ddev/traefik/certs/wpify-skeleton.key',
-              cert: './.ddev/traefik/certs/wpify-skeleton.crt',
-            },
-          }
-          : {}
+          fs.existsSync('./.ddev/traefik/certs/wpify-skeleton.key') && fs.existsSync('./.ddev/traefik/wpify-skeleton/events.crt')
+              ? {
+                https: {
+                  key: './.ddev/traefik/certs/wpify-skeleton.key',
+                  cert: './.ddev/traefik/certs/wpify-skeleton.crt',
+                },
+              }
+              : {}
       ),
     }, {
       injectCss: true,
       reload: true,
     }),
-    new CopyAfterCompilationWebpackPlugin(
-      [
-        {
-          source: path.resolve('web/app/mu-plugins/wpify-skeleton/build/editor-style.css'),
-          destination: path.resolve('web/app/themes/wpify-skeleton/editor-style.css'),
-        },
-      ],
-    ),
-    new SVGSpritemapPlugin('./assets/sprites/**/*.svg', {
-      output: {
-        filename: 'sprites.svg',
-      },
-      styles: {
-        filename: path.resolve('assets/styles/sprites.scss'),
-        callback: (content) => `${content}\n@each $name, $size in $sizes {\n.sprite--#{$name} { width: map-get($size, width); height: map-get($size, height); }\n}`,
-      },
-    }),
   ],
-};
+});

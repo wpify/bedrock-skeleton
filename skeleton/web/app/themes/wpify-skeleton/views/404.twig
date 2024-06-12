@@ -1,0 +1,17 @@
+{% extends "views/layout/template-container.twig" %}
+
+{% block top %}
+    {% include 'blocks/hero.twig' with {
+        'title': __( 'Page not found' ),
+        'description': ' '
+    } %}
+{% endblock %}
+
+{% block content %}
+    {% include 'views/layout/page-sidebar.twig' with {
+        top: top,
+        content: content,
+        sidebar: sidebar,
+        sidebar_position: sidebar_position
+    } %}
+{% endblock %}

@@ -79,24 +79,4 @@ class Settings {
 			)
 		);
 	}
-
-	public function get_options() {
-		return get_option( self::KEY );
-	}
-
-	public function get_option( string|array $keys ) {
-		$options = get_option( self::KEY );
-		$option  = $options;
-		$keys    = is_string( $keys ) ? explode( '.', $keys ) : $keys;
-
-		foreach ( $keys as $subkey ) {
-			if ( isset( $option[ $subkey ] ) ) {
-				$option = $option[ $subkey ];
-			} else {
-				return null;
-			}
-		}
-
-		return $option;
-	}
 }

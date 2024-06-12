@@ -1,0 +1,17 @@
+<a href="{{ embed_code }}" class="aspect-[16/10] flex justify-center items-center relative max-w-[940px] w-full min-h-[300px] mx-auto rounded-large overflow-hidden group {{ class }}">
+	{% include "components/image.twig" with {
+		'id': image,
+		'class': 'w-full h-full absolute inset-0 object-cover group-hover:scale-[105%] transition-all',
+		size: [940, 530]
+	} %}
+
+	<div class="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent to-black opacity-80"></div>
+
+	<div class="relative text-center text-white max-w-sm group-hover:scale-[105%] transition-all px-5">
+		<svg class="w-20 h-20 mx-auto shadow-custom">
+			<use xlink:href="#sprite-play-button"></use>
+		</svg>
+		<p class="text-white mb-0 {% if titleClass %}{{ titleClass }}{% else %}title{% endif %}">{{ title }}</p>
+		<p class>({{ time }})</p>
+	</div>
+</a>

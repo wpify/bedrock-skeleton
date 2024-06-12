@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress" namespace="WordPressCS\WordPress">
-    <description>WordPress Coding Standards</description>
+    <description>WordPrefss Coding Standards</description>
 
     <!--
     Included via WordPress-Extra.
@@ -21,6 +21,7 @@
     <exclude-pattern>web/app/vendor/</exclude-pattern>
     <exclude-pattern>assets</exclude-pattern>
     <exclude-pattern>*.js</exclude-pattern>
+    <config name="installed_paths" value="./../../wp-coding-standards/wpcs,./../../phpcsstandards/phpcsutils,./../../phpcsstandards/phpcsextra"/>
 
     <!-- Show colors in console -->
     <arg value="-colors"/>

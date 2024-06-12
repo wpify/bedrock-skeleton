@@ -2,8 +2,12 @@
 
 namespace WpifySkeleton;
 
+use WpifySkeleton\Features\Backend;
+use WpifySkeleton\Features\CLI;
+use WpifySkeleton\Features\Frontend;
 use WpifySkeleton\Managers\ApiManager;
 use WpifySkeleton\Managers\BlocksManager;
+use WpifySkeleton\Managers\FeaturesManager;
 use WpifySkeleton\Managers\PostTypesManager;
 use WpifySkeleton\Managers\RepositoryManager;
 use WpifySkeleton\Managers\SnippetsManager;
@@ -22,6 +26,7 @@ final class Plugin {
 		Frontend $frontend,
 		Settings $settings,
 		PluginUtils $utils,
+		FeaturesManager $features_manager
 	) {
 		require_once 'helpers.php';
 		require_once 'overrides.php';

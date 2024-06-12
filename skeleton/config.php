@@ -6,6 +6,7 @@ use Wpify\Model\Manager;
 use Wpify\PluginUtils\PluginUtils;
 use Wpify\Templates\TwigTemplates;
 use Wpify\Templates\WordPressTemplates;
+use WpifySkeleton\Features\TwigExtensions;
 
 return array(
 	CustomFields::class       => ( new CreateDefinitionHelper() )
@@ -17,7 +18,9 @@ return array(
 			array(
 				'integrate'  => true,
 				'debug'      => defined( 'WP_DEBUG' ) && WP_DEBUG,
-				'extensions' => array(),
+				'extensions' => array(
+					DI\create( TwigExtensions::class ),
+				),
 				'functions'   => array(
 					'bdump' => 'bdump',
 					'wp_image' => 'wp_get_attachment_image',

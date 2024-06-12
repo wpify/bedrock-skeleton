@@ -1,0 +1,9 @@
+{% set link = trailingslashit(buttonLink) %}
+<a href="{{ link }}" class="{{ buttonClass }}" title="{{ buttonText }}" target="{{ target }}">
+    {{ buttonText }}
+    {% if buttonIcon %}
+        {% include 'components/image.twig' with {
+            'id': buttonIcon
+        } %}
+    {% endif %}
+</a>

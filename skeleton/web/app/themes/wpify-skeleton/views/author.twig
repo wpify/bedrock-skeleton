@@ -1,0 +1,62 @@
+{% extends "views/layout/template-container.twig" %}
+
+{% block top %}
+    {% include 'blocks/hero.twig' with {
+        'title': item.title,
+        'description': item.position,
+        'pagination': pagination,
+        'show_pagination': true,
+        'columns': 2,
+        'image': item.featured_image_id,
+        'image_label': ' ',
+        'image_sub_label': ' ',
+        'button_1': {
+            'link': {
+                'label': __('Contact me, I am here for you','hyponamiru'),
+                'url': 'mailto:' ~ item.email
+            },
+            'styles': 'primary'
+        },
+        'button_2': {
+            'link': {
+                'label': item.youtube ? __('Play video intro','hyponamiru') : '',
+                'url': item.youtube ? 'https://www.youtube.com/watch?v=' ~ item.youtube : '',
+                'target': '_blank'
+            },
+            'styles': 'inverse'
+        },
+        'hide_btn2': not item.youtube
+    } %}
+{% endblock %}
+
+{% block content %}
+    {% include 'components/breadcrumbs.twig' with {'no_wrap': true} %}
+    {% include 'blocks/title-box.twig' with {
+        'title': __('Introduction','hyponamiru'),
+        'align': 'left',
+        'title_tag': 'h2',
+        'classes': 'section--small',
+        'no_wrap' : true
+    } %}
+
+    {{ item.content|raw }}
+
+    {% if items %}
+        {% include 'blocks/title-box.twig' with {
+            'title': __('Author posts','hyponamiru'),
+            'align': 'left',
+            'title_tag': 'h2',
+            'classes': 'section--small',
+            'no_wrap' : true
+        } %}
+
+        {% include 'blocks/posts.twig' with {
+            'items': items,
+            'columns': 3,
+            'classes': 'section--small',
+            'no_wrap' : true
+        } %}
+    {% endif %}
+
+
+{% endblock %}

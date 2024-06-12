@@ -1,0 +1,18 @@
+<div class="breadcrumbs {{ breadClass }}">
+    <div class="{{  no_wrap ? '' : 'in' }}">
+        {% if global.wp %}
+            {{ do_shortcode('[rank_math_breadcrumb]') }}
+        {% else %}
+            <ul>
+                <li>
+                    <a href="#" aria-label="Home">
+                        hyponamiru.cz
+                    </a>
+                </li>
+                <li><span>Léto</span></li>
+                <li><span>Dovolená</span></li>
+                <li><span>Food festival Pec pod Sněžkou</span></li>
+            </ul>
+        {% endif %}
+    </div>
+</div>

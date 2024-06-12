@@ -1,0 +1,16 @@
+{% extends "views/layout/template-sidebar.twig" %}
+{% block top %}
+    {% include 'blocks/hero.twig'  with {
+        title: title,
+        description: ' ',
+    } %}
+{% endblock %}
+{% block content %}
+    {% include 'blocks/posts.twig' with {
+        'items': items,
+        'pagination': pagination,
+        'show_pagination': true,
+        'columns': 2
+    } %}
+{% endblock %}
+{% block sidebar %}{{ sidebar|raw }}{% endblock %}

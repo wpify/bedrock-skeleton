@@ -1,6 +1,6 @@
 <?php // phpcs:ignore
 
-namespace WpifySkeleton;
+namespace WpifySkeleton\Features;
 
 /**
  * Admin.

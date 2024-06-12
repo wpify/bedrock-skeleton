@@ -1,0 +1,26 @@
+{% extends 'views/layout/base.twig' %}
+
+{% block body %}
+    <div class="section section--page-sidebar section--floating">
+        {% block top %}{% endblock %}
+        <div class="in">
+            <div class="page-sidebar page-sidebar--{{ sidebar_position }}">
+                <div class="page-sidebar__left">
+                    {% if sidebar_position != 'left' %}
+{#                        {% include 'components/breadcrumbs.twig' %}#}
+                    {% endif %}
+
+                    {% block content %}{% endblock %}
+                </div>
+                <div class="page-sidebar__right">
+                    {% block sidebar %}{% endblock %}
+                </div>
+            </div>
+        </div>
+{#        {% include 'components/banners.twig' with {#}
+{#            'items': banners#}
+{#        } %}#}
+    </div>
+{% endblock %}
+
+

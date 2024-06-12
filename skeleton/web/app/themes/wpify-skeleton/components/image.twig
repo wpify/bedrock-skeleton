@@ -1,0 +1,11 @@
+{% set height = size[0] %}
+{% set width= size[1] %}
+{% if global.wp %}
+    {% if id is numeric %}
+        {{ wp_image(id, size, false, {'class': class}) }}
+    {% else %}
+        <img src="{{ global.theme_url ~ '/images/' }}{{ id }}" alt="" height="{{ height }}" width="{{ width }}" class="{{ class }}">
+    {% endif %}
+{% else %}
+    <img src="{{ global.theme_url ~ '/images/' }}{{ id }}" alt="" height="{{ height }}" width="{{ width }}" class="{{ class }}">
+{% endif %}

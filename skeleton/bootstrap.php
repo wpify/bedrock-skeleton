@@ -10,29 +10,35 @@ use function Env\env;
  * @return Plugin
  * @throws Exception
  */
-function wpify_skeleton(): Plugin {
-	return wpify_skeleton_container()->get( Plugin::class );
-}
-
-/**
- * @return Container
- * @throws Exception
- */
-function wpify_skeleton_container(): Container {
+function wpify_skeleton( $class = '' ) {
 	static $container;
 
 	if ( empty( $container ) ) {
-		$is_production    = ! WP_DEBUG;
-		$definition       = require_once __DIR__ . '/config.php';
-		$containerBuilder = new ContainerBuilder();
-		$containerBuilder->addDefinitions( $definition );
-		$container = $containerBuilder->build();
+		$is_production     = ! WP_DEBUG;
+		$definition        = require_once __DIR__ . '/config.php';
+		$container_builder = new ContainerBuilder();
+		$container_builder->addDefinitions( $definition );
+		$container = $container_builder->build();
+	}
+
+	if ( ! empty( $class ) ) {
+		return $container->get( $class );
 	}
 
 	return $container;
 }
 
-add_action( 'plugins_loaded', 'wpify_skeleton', 11 );
+/**
+ * Init
+ *
+ * @return void
+ * @throws Exception
+ */
+function wpify_skeleton_init(): void {
+	braasi( Plugin::class );
+}
+
+add_action( 'plugins_loaded', 'wpify_skeleton_init', 11 );
 
 add_filter( 'load_script_textdomain_relative_path', function ( $path, $src ) {
 	if ( str_contains( $src, '/mu-plugins/wpify-skeleton/' ) ) {
