@@ -31,7 +31,7 @@ return array(
 			)
 		),
 	PluginUtils::class        => ( new CreateDefinitionHelper() )
-		->constructor( __DIR__ . '/web/app/mu-plugins/wpify-skeleton/wpify-skeleton.php' ),
+		->constructor( __DIR__ . '/bootstrap.php' ),
 	Manager::class        => ( new CreateDefinitionHelper() )
 		->constructor( array() ),
 	ControllersManager::class => ( new CreateDefinitionHelper() )

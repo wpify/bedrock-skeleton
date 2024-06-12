@@ -23,6 +23,7 @@ class Frontend {
 	public function __construct(
 		private PluginUtils $utils,
 		private AssetFactory $asset_factory,
+        private ApiManager $api_manager
 	) {
 		add_action( 'wp_footer', array( $this, 'inject_browsersync' ), PHP_INT_MAX );
 		add_action( 'after_setup_theme', array( $this, 'add_theme_supports' ) );
@@ -84,19 +85,65 @@ class Frontend {
 	 */
 	public function setup_assets() {
 		$this->asset_factory->wp_script(
-			$this->utils->get_plugin_path( 'build/plugin.js' ),
+			$this->utils->get_plugin_path( 'web/app/themes/wpify-skeleton/build/plugin.js' ),
 			array(
 				'text_domain'       => $this->utils->get_text_domain(),
 				'translations_path' => $this->utils->get_plugin_path( 'languages/json' ),
 				'variables'         => array(
-					'wpify_skeleton' => array(
+					'wpify-skeleton' => array(
 						'api_url' => get_rest_url( null, ApiManager::PATH ),
 					),
 				),
 				'in_footer'         => true,
 			)
 		);
-		$this->asset_factory->wp_script( $this->utils->get_plugin_path( 'build/plugin.css' ) );
+		$this->asset_factory->wp_script( $this->utils->get_plugin_path( 'web/app/themes/wpify-skeleton/build/plugin.css' ) );
+
+        if (function_exists('WC')) {
+	        $this->asset_factory->wp_script(
+		        $this->utils->get_plugin_path( 'web/app/themes/wpify-skeleton/build/mini-cart.js' ),
+		        array(
+			        'in_footer'         => true,
+			        'text_domain'       => $this->utils->get_text_domain(),
+			        'translations_path' => $this->utils->get_plugin_path( 'languages/json' ),
+			        'variables'         => array(),
+			        'dependencies'      => array( 'wc-cart-block-frontend', 'wc-blocks-data-store' ),
+		        )
+	        );
+	        $this->asset_factory->wp_script(
+		        $this->utils->get_plugin_path( 'web/app/themes/wpify-skeleton/build/side-cart.js' ),
+		        array(
+			        'in_footer'         => true,
+			        'text_domain'       => $this->utils->get_text_domain(),
+			        'translations_path' => $this->utils->get_plugin_path( 'languages/json' ),
+			        'variables'         => array(
+				        'side_cart' => array(
+					        'cart_url'     => wc_get_cart_url(),
+					        'checkout_url' => wc_get_checkout_url(),
+				        ),
+
+			        ),
+			        'dependencies'      => array( 'wc-cart-block-frontend', 'wc-blocks-data-store' ),
+		        )
+	        );
+	        $this->asset_factory->wp_script(
+		        $this->utils->get_plugin_path( 'web/app/themes/wpify-skeleton/build/search.js' ),
+		        array(
+			        'in_footer'         => true,
+			        'text_domain'       => $this->utils->get_text_domain(),
+			        'translations_path' => $this->utils->get_plugin_path( 'languages/json' ),
+			        'variables'         => array(
+				        'search' => array(
+					        'api_url'      => $this->api_manager->get_rest_url(),
+					        'checkout_url' => wc_get_checkout_url(),
+				        ),
+
+			        ),
+			        'dependencies'      => array( 'wc-cart-block-frontend', 'wc-blocks-data-store' ),
+		        )
+	        );
+        }
+
 	}
 
 	/**
