@@ -85,7 +85,7 @@ class Installer {
 		$composer['extra']['installer-paths']['web/app/vendor/{$vendor}/{$name}'] = array( 'wpify/custom-fields' );
 
 		$composer['extra']['wpify-scoper'] = [
-			'prefix' => 'WpifySkeletonDeps',
+			'prefix' => Strings::get_case( $project_name, 'pascal' ) .'Deps',
 			'folder' => 'web/app/deps',
 		];
 
