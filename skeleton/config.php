@@ -1,5 +1,6 @@
 <?php // phpcs:ignore
 
+use WpifySkeleton\Managers\ControllersManager;
 use WpifySkeletonDeps\DI\Definition\Helper\CreateDefinitionHelper;
 use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
 use WpifySkeletonDeps\Wpify\Model\Manager;
@@ -33,4 +34,6 @@ return array(
 		->constructor( __DIR__ . '/web/app/mu-plugins/wpify-skeleton/wpify-skeleton.php' ),
 	Manager::class        => ( new CreateDefinitionHelper() )
 		->constructor( array() ),
+	ControllersManager::class => ( new CreateDefinitionHelper() )
+		->constructor( __DIR__.'/src/Controllers/Views' ),
 );

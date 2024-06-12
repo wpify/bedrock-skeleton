@@ -2,16 +2,21 @@
 
 namespace WpifySkeleton\Managers;
 
-use WpifySkeleton\Controllers\Views\GlobalViewController;
-use WpifySkeleton\Controllers\Views\SinglePageViewController;
-use WpifySkeleton\Controllers\Views\SinglePostViewController;
-
 class ControllersManager {
 	public function __construct(
-		GlobalViewController $global_view_controller,
-		SinglePageViewController $single_page_view_controller,
-		SinglePostViewController $single_post_view_controller
+		private readonly string $path
 	) {
+		$this->load_controllers();
 
+	}
+
+	public function load_controllers(  ) {
+		$iter = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+		foreach ($iter as $file) {
+			$classname = sprintf("WpifySkeleton\\Controllers\\Views\\%s", str_replace('.php', '', $file->getFilename()));
+			if (class_exists($classname)) {
+				wpify_skeleton($classname);
+			}
+		}
 	}
 }
