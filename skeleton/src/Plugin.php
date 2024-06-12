@@ -7,6 +7,7 @@ use WpifySkeleton\Features\CLI;
 use WpifySkeleton\Features\Frontend;
 use WpifySkeleton\Managers\ApiManager;
 use WpifySkeleton\Managers\BlocksManager;
+use WpifySkeleton\Managers\ControllersManager;
 use WpifySkeleton\Managers\FeaturesManager;
 use WpifySkeleton\Managers\PostTypesManager;
 use WpifySkeleton\Managers\RepositoryManager;
@@ -26,7 +27,8 @@ final class Plugin {
 		Frontend $frontend,
 		Settings $settings,
 		PluginUtils $utils,
-		FeaturesManager $features_manager
+		FeaturesManager $features_manager,
+		ControllersManager $controllers_manager
 	) {
 		require_once 'helpers.php';
 		require_once 'overrides.php';

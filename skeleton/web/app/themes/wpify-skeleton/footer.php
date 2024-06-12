@@ -1,6 +1,6 @@
 <?php
 
-$controller = braasi(\WpifySkeleton\Controllers\Views\FooterViewController::class);
+$controller = wpify_skeleton(\WpifySkeleton\Controllers\Views\FooterViewController::class);
 ?>
 </main>
 <footer class="site-footer">
