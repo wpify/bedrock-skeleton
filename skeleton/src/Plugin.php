@@ -12,7 +12,7 @@ use WpifySkeleton\Managers\PostTypesManager;
 use WpifySkeleton\Managers\RepositoryManager;
 use WpifySkeleton\Managers\SnippetsManager;
 use WpifySkeleton\Managers\TaxonomiesManager;
-use Wpify\PluginUtils\PluginUtils;
+use WpifySkeletonDeps\Wpify\PluginUtils\PluginUtils;
 
 final class Plugin {
 	public function __construct(

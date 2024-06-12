@@ -1,11 +1,11 @@
 <?php // phpcs:ignore
 
 use DI\Definition\Helper\CreateDefinitionHelper;
-use Wpify\CustomFields\CustomFields;
-use Wpify\Model\Manager;
-use Wpify\PluginUtils\PluginUtils;
-use Wpify\Templates\TwigTemplates;
-use Wpify\Templates\WordPressTemplates;
+use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
+use WpifySkeletonDeps\Wpify\Model\Manager;
+use WpifySkeletonDeps\Wpify\PluginUtils\PluginUtils;
+use WpifySkeletonDeps\Wpify\Templates\TwigTemplates;
+use WpifySkeletonDeps\Wpify\Templates\WordPressTemplates;
 use WpifySkeleton\Features\TwigExtensions;
 
 return array(

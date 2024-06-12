@@ -3,7 +3,7 @@
 namespace WpifySkeleton\PostTypes;
 
 use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
-use Wpify\PluginUtils\PluginUtils;
+use WpifySkeletonDeps\Wpify\PluginUtils\PluginUtils;
 
 class ContactPostType {
 	const KEY = 'contact';

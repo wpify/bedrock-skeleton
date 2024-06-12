@@ -13,7 +13,7 @@ use WpifySkeleton\Blocks\SeparatorBlock;
 use WpifySkeleton\Blocks\WorkflowBlock;
 
 use WpifySkeletonDeps\Wpify\Asset\AssetFactory;
-use Wpify\PluginUtils\PluginUtils;
+use WpifySkeletonDeps\Wpify\PluginUtils\PluginUtils;
 
 final class BlocksManager {
 	private $utils;

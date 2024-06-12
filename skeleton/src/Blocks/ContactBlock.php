@@ -6,7 +6,7 @@ use WpifySkeleton\Api\ContactFormApi;
 use WpifySkeleton\Managers\ApiManager;
 use WpifySkeletonDeps\Wpify\Asset\AssetFactory;
 use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
-use Wpify\PluginUtils\PluginUtils;
+use WpifySkeletonDeps\Wpify\PluginUtils\PluginUtils;
 use WpifySkeletonDeps\Wpify\Templates\TwigTemplates;
 
 class ContactBlock {

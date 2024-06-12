@@ -4,7 +4,7 @@ namespace WpifySkeleton\Features;
 
 use WpifySkeleton\Managers\ApiManager;
 use WpifySkeletonDeps\Wpify\Asset\AssetFactory;
-use Wpify\PluginUtils\PluginUtils;
+use WpifySkeletonDeps\Wpify\PluginUtils\PluginUtils;
 
 /**
  * Frontend
