@@ -11,7 +11,7 @@ use WpifySkeleton\Features\TwigExtensions;
 
 return array(
 	CustomFields::class       => ( new CreateDefinitionHelper() )
-		->constructor( content_url( 'vendor/wpify/custom-fields' ) ),
+		->constructor( content_url( 'deps/wpify/custom-fields' ) ),
 	WordPressTemplates::class => ( new CreateDefinitionHelper() ),
 	TwigTemplates::class      => ( new CreateDefinitionHelper() )
 		->constructor(
