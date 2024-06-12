@@ -2,11 +2,11 @@
 
 namespace WpifySkeleton\Features;
 
-use DI\DependencyException;
-use DI\NotFoundException;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
-use Twig\TwigTest;
+use WpifySkeletonDeps\DI\DependencyException;
+use WpifySkeletonDeps\DI\NotFoundException;
+use WpifySkeletonDeps\Twig\Extension\AbstractExtension;
+use WpifySkeletonDeps\Twig\TwigFunction;
+use WpifySkeletonDeps\Twig\TwigTest;
 
 
 class TwigExtensions extends AbstractExtension {

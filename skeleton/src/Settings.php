@@ -1,8 +1,8 @@
 <?php
 
-namespace WpifySkeleton;
+namespace Braasi;
 
-use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
+use Wpify\CustomFields\CustomFields;
 
 /**
  * Class Settings
@@ -12,12 +12,15 @@ use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
  */
 class Settings {
 	const KEY = 'wpify_skeleton_options';
-	const FORM_EMAIL = 'form-email';
-	const FOOTER = 'footer';
-	const SCRIPTS = 'scripts';
-	const SCRIPTS_HEADER = 'script_header';
-	const SCRIPTS_BODY_START = 'script_body_start';
-	const SCRIPTS_BODY_END = 'script_body_end';
+	const FORM_EMAIL                   = 'form-email';
+	const FOOTER                       = 'footer';
+	const PROVIDERS                    = 'providers';
+	const REVIEWS                      = 'reviews';
+	const IMPORTANT_PAGES              = 'important_pages';
+	const HEADER                       = 'header';
+	const SIDEBAR                      = 'sidebar';
+	const PAGE_404                     = 'page_404';
+	const ABOUT_US                     = 'about_us';
 
 	public function __construct( CustomFields $wcf ) {
 		$wcf->create_options_page(
@@ -33,46 +36,55 @@ class Settings {
 						'type'  => 'group',
 						'items' => array(
 							array(
-								'type'  => 'email',
-								'id'    => self::FORM_EMAIL,
-								'title' => _x( 'E-mail for forms', 'settings', 'wpify-skeleton' ),
-							),
-							array(
-								'type'        => 'wysiwyg',
-								'id'          => self::FOOTER,
-								'title'       => _x( 'Text in the footer', 'settings', 'wpify-skeleton' ),
-								'description' => _x( 'You can use placeholder for year <code>[year]</code>.', 'settings', 'wpify-skeleton' ),
-							),
-							array(
+								'title' => __( 'Important pages', 'wpify-skeleton' ),
 								'type'  => 'group',
-								'title' => 'Scripts',
-								'id'    => self::SCRIPTS,
+								'id'    => self::IMPORTANT_PAGES,
 								'items' => array(
 									array(
-										'type'  => 'title',
-										'title' => _x( 'Scripts', 'settings', 'wpify-skeleton' ),
-										'id'    => 'title',
+										'title'     => __( 'Header', 'wpify-skeleton' ),
+										'id'        => self::HEADER,
+										'type'      => 'post',
+										'post_type' => 'wp_block',
 									),
 									array(
-										'type'    => 'code',
-										'title'   => _x( 'In header', 'settings', 'wpify-skeleton' ),
-										'id'      => self::SCRIPTS_HEADER,
-										'default' => '',
+										'title'     => __( 'Footer', 'wpify-skeleton' ),
+										'id'        => self::FOOTER,
+										'type'      => 'post',
+										'post_type' => 'wp_block',
 									),
 									array(
-										'type'    => 'code',
-										'title'   => _x( 'At the body start', 'settings', 'wpify-skeleton' ),
-										'id'      => self::SCRIPTS_BODY_START,
-										'default' => '',
+										'title'     => __( 'Sidebar', 'wpify-skeleton' ),
+										'id'        => self::SIDEBAR,
+										'type'      => 'post',
+										'post_type' => 'wp_block',
 									),
 									array(
-										'type'    => 'code',
-										'title'   => _x( 'At the body end', 'settings', 'wpify-skeleton' ),
-										'id'      => self::SCRIPTS_BODY_END,
-										'default' => '',
+										'title'     => __( 'Providers', 'wpify-skeleton' ),
+										'id'        => self::PROVIDERS,
+										'type'      => 'post',
+										'post_type' => 'page',
+									),
+									array(
+										'title'     => __( 'Reviews', 'wpify-skeleton' ),
+										'id'        => self::REVIEWS,
+										'type'      => 'post',
+										'post_type' => 'page',
+									),
+									array(
+										'title'     => __( 'About us', 'wpify-skeleton' ),
+										'id'        => self::ABOUT_US,
+										'type'      => 'post',
+										'post_type' => 'page',
+									),
+									array(
+										'title'     => __( '404', 'wpify-skeleton' ),
+										'id'        => self::PAGE_404,
+										'type'      => 'post',
+										'post_type' => 'wp_block',
 									),
 								),
 							),
+
 						),
 					),
 				),

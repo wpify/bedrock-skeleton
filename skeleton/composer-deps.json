@@ -12,7 +12,7 @@
     }
   },
   "require": {
-    "php": "^8.3.30",
+    "php": "^8.3",
     "ext-json": "*",
     "php-di/php-di": "^7.0.6",
     "wpify/plugin-utils": "^1.0.1",

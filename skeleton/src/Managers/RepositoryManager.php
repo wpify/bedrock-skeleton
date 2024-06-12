@@ -3,7 +3,7 @@
 namespace WpifySkeleton\Managers;
 
 use WpifySkeletonDeps\Wpify\Model\Manager;
-use DI\Container;
+use WpifySkeletonDeps\DI\Container;
 use WpifySkeleton\Repositories\ContactRepository;
 
 class RepositoryManager {

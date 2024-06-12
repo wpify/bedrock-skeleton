@@ -29,6 +29,7 @@ final class BlocksManager {
 
 		add_action( 'after_setup_theme', array( $this, 'editor_styles' ) );
 		add_filter( 'block_categories_all', array( $this, 'block_categories' ), 10, 2 );
+		add_action( 'admin_menu', array( $this, 'show_reusable_blocks_admin_menu' ) );
 
 		$this->asset_factory->admin_wp_script( $this->utils->get_plugin_path( 'build/block-editor.js' ) );
 	}
@@ -46,5 +47,9 @@ final class BlocksManager {
 		);
 
 		return $categories;
+	}
+
+	public function show_reusable_blocks_admin_menu() {
+		add_menu_page( 'Reusable Blocks', 'Reusable Blocks', 'edit_posts', 'edit.php?post_type=wp_block', '', 'dashicons-editor-table', 22 );
 	}
 }

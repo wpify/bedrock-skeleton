@@ -2,8 +2,8 @@
 use Tracy\Debugger;
 use Wpify\Tracy\Tracy;
 use WpifySkeleton\Plugin;
-use DI\Container;
-use DI\ContainerBuilder;
+use WpifySkeletonDeps\DI\Container;
+use WpifySkeletonDeps\DI\ContainerBuilder;
 use function Env\env;
 
 /**

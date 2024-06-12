@@ -1,6 +1,6 @@
 <?php // phpcs:ignore
 
-use DI\Definition\Helper\CreateDefinitionHelper;
+use WpifySkeletonDeps\DI\Definition\Helper\CreateDefinitionHelper;
 use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
 use WpifySkeletonDeps\Wpify\Model\Manager;
 use WpifySkeletonDeps\Wpify\PluginUtils\PluginUtils;
@@ -19,7 +19,7 @@ return array(
 				'integrate'  => true,
 				'debug'      => defined( 'WP_DEBUG' ) && WP_DEBUG,
 				'extensions' => array(
-					DI\create( TwigExtensions::class ),
+					WpifySkeletonDeps\DI\create( TwigExtensions::class ),
 				),
 				'functions'   => array(
 					'bdump' => 'bdump',
