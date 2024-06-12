@@ -36,7 +36,16 @@ class Installer {
 				$value = 'db';
 			} elseif ( 'WP_HOME' === $name ) {
 				$value = 'https://www.' . $project_name . '.test';
-			} elseif ( in_array( $name, array( 'AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT' ) ) ) {
+			} elseif ( in_array( $name, array(
+				'AUTH_KEY',
+				'SECURE_AUTH_KEY',
+				'LOGGED_IN_KEY',
+				'NONCE_KEY',
+				'AUTH_SALT',
+				'SECURE_AUTH_SALT',
+				'LOGGED_IN_SALT',
+				'NONCE_SALT'
+			) ) ) {
 				$value = Strings::generate_password();
 			}
 
@@ -75,6 +84,11 @@ class Installer {
 
 		$composer['extra']['installer-paths']['web/app/vendor/{$vendor}/{$name}'] = array( 'wpify/custom-fields' );
 
+		$composer['extra']['wpify-scoper'] = [
+			'prefix' => 'WpifySkeletonDeps',
+			'folder' => 'web/app/deps',
+		];
+
 		$composer['scripts']['make-pot']  = array(
 			'wp i18n make-pot . web/app/mu-plugins/testovaci-projekt/languages/testovaci-projekt.pot --include="src,web/app/mu-plugins/testovaci-projekt,web/app/themes/testovaci-projekt" --domain="testovaci-projekt"',
 		);
@@ -112,8 +126,8 @@ class Installer {
 	/**
 	 * Run command in console.
 	 *
-	 * @param array $command
-	 * @param string|null $cwd
+	 * @param array         $command
+	 * @param string|null   $cwd
 	 * @param ConsoleOutput $output
 	 *
 	 * @return void
@@ -235,11 +249,11 @@ class Installer {
 		$output->writeln( "\n<info> ➤ Moving files to the final destination</info>\n" );
 
 		$clean = array_values( array_filter(
-			glob( $root_dir . '/{,.}*', GLOB_BRACE ),
-			function ( $file ) {
-				return is_file( $file ) && ! str_ends_with( $file, '/README.md' );
-			},
-		) );
+			                       glob( $root_dir . '/{,.}*', GLOB_BRACE ),
+			                       function ( $file ) {
+				                       return is_file( $file ) && ! str_ends_with( $file, '/README.md' );
+			                       },
+		                       ) );
 
 		foreach ( $clean as $file ) {
 			Filesystem::delete( $root_dir . '/' . $file );
