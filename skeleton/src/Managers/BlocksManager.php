@@ -12,7 +12,7 @@ use WpifySkeleton\Blocks\NumbersBlock;
 use WpifySkeleton\Blocks\SeparatorBlock;
 use WpifySkeleton\Blocks\WorkflowBlock;
 
-use Wpify\Asset\AssetFactory;
+use WpifySkeletonDeps\Wpify\Asset\AssetFactory;
 use Wpify\PluginUtils\PluginUtils;
 
 final class BlocksManager {

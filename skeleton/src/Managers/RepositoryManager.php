@@ -2,7 +2,7 @@
 
 namespace WpifySkeleton\Managers;
 
-use Wpify\Model\Manager;
+use WpifySkeletonDeps\Wpify\Model\Manager;
 use DI\Container;
 use WpifySkeleton\Repositories\ContactRepository;
 

@@ -1,0 +1,26 @@
+{
+  "config": {
+    "process-timeout": 1200,
+    "platform": {
+      "php": "8.3"
+    },
+    "allow-plugins": {
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "roots/wordpress-core-installer": true,
+      "mnsami/composer-custom-directory-installer": true
+    }
+  },
+  "require": {
+    "php": "^8.3.30",
+    "ext-json": "*",
+    "php-di/php-di": "^7.0.6",
+    "wpify/plugin-utils": "^1.0.1",
+    "wpify/asset": "^1.2.7",
+    "wpify/custom-fields": "^3.9.6",
+    "wpify/model": "^4.0.10",
+    "wpify/templates": "^3.1.5",
+    "wpify/snippets": "^3.2.1"
+  }
+}
+

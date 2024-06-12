@@ -2,9 +2,9 @@
 
 namespace WpifySkeleton\Managers;
 
-use Wpify\Snippets\CopyrightShortcode;
-use Wpify\Snippets\DisableEmojis;
-use Wpify\Snippets\RemoveAccentInFilenames;
+use WpifySkeletonDeps\Wpify\Snippets\CopyrightShortcode;
+use WpifySkeletonDeps\Wpify\Snippets\DisableEmojis;
+use WpifySkeletonDeps\Wpify\Snippets\RemoveAccentInFilenames;
 
 final class SnippetsManager {
 	public function __construct(

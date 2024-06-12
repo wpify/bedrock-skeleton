@@ -2,7 +2,7 @@
 
 namespace WpifySkeleton\Repositories;
 
-use Wpify\Model\PostRepository;
+use WpifySkeletonDeps\Wpify\Model\PostRepository;
 use WpifySkeleton\Models\ContactModel;
 use WpifySkeleton\PostTypes\ContactPostType;
 

@@ -3,7 +3,7 @@
 namespace WpifySkeleton\Controllers\Views;
 
 use WpifySkeleton\Abstracts\AbstractViewController;
-use Wpify\Model\PostRepository;
+use WpifySkeletonDeps\Wpify\Model\PostRepository;
 
 /**
  * SinglePostViewController.

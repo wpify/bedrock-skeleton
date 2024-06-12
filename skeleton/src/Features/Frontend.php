@@ -3,7 +3,7 @@
 namespace WpifySkeleton\Features;
 
 use WpifySkeleton\Managers\ApiManager;
-use Wpify\Asset\AssetFactory;
+use WpifySkeletonDeps\Wpify\Asset\AssetFactory;
 use Wpify\PluginUtils\PluginUtils;
 
 /**

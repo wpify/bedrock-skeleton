@@ -4,7 +4,7 @@ namespace WpifySkeleton\Controllers\Views;
 
 use WpifySkeleton\Repositories\SettingsRepository;
 use WpifySkeleton\Settings;
-use Wpify\Model\PostRepository;
+use WpifySkeletonDeps\Wpify\Model\PostRepository;
 
 /**
  * SinglePostViewController.

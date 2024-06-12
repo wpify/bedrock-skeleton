@@ -2,7 +2,7 @@
 
 namespace WpifySkeleton\PostTypes;
 
-use Wpify\CustomFields\CustomFields;
+use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
 use Wpify\PluginUtils\PluginUtils;
 
 class ContactPostType {

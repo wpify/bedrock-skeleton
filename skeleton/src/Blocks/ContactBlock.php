@@ -4,10 +4,10 @@ namespace WpifySkeleton\Blocks;
 
 use WpifySkeleton\Api\ContactFormApi;
 use WpifySkeleton\Managers\ApiManager;
-use Wpify\Asset\AssetFactory;
-use Wpify\CustomFields\CustomFields;
+use WpifySkeletonDeps\Wpify\Asset\AssetFactory;
+use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
 use Wpify\PluginUtils\PluginUtils;
-use Wpify\Templates\TwigTemplates;
+use WpifySkeletonDeps\Wpify\Templates\TwigTemplates;
 
 class ContactBlock {
 	public function __construct(

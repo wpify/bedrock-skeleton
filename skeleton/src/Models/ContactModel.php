@@ -2,8 +2,8 @@
 
 namespace WpifySkeleton\Models;
 
-use Wpify\Model\Attributes\Meta;
-use Wpify\Model\Post;
+use WpifySkeletonDeps\Wpify\Model\Attributes\Meta;
+use WpifySkeletonDeps\Wpify\Model\Post;
 
 /**
  * PostModel.

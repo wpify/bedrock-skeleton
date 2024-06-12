@@ -2,7 +2,7 @@
 
 namespace WpifySkeleton;
 
-use Wpify\CustomFields\CustomFields;
+use WpifySkeletonDeps\Wpify\CustomFields\CustomFields;
 
 /**
  * Class Settings
