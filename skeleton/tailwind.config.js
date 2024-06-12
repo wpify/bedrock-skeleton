@@ -4,14 +4,14 @@ module.exports = {
 	content: [
 		'./assets/apps/**/*.js',
 		'./assets/apps/**/*.jsx',
-		'./web/app/themes/braasi/views/**/*.php',
-		'./web/app/themes/braasi/views/**/*.twig',
-		'./web/app/themes/braasi/blocks/**/*.php',
-		'./web/app/themes/braasi/blocks/**/*.twig',
+		'./web/app/themes/wpify-skeleton/views/**/*.php',
+		'./web/app/themes/wpify-skeleton/views/**/*.twig',
+		'./web/app/themes/wpify-skeleton/blocks/**/*.php',
+		'./web/app/themes/wpify-skeleton/blocks/**/*.twig',
 	],
 	theme: {
 		fontFamily: {
-      'braasi': ["HelveticaNeueLTPro-Bd", "Arial", "sans-serif !important"],
+      'wpify-skeleton': ["HelveticaNeueLTPro-Bd", "Arial", "sans-serif !important"],
     },
 		container: {
 			center: true,
