@@ -35,7 +35,7 @@ function wpify_skeleton( $class = '' ) {
  * @throws Exception
  */
 function wpify_skeleton_init(): void {
-	test_site( Plugin::class );
+	wpify_skeleton( Plugin::class );
 }
 
 add_action( 'plugins_loaded', 'wpify_skeleton_init', 11 );
