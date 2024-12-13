@@ -22,7 +22,7 @@ const requestToExternal = (request) => {
   if (wcDepMap[request]) {
     return wcDepMap[request];
   }
-};  
+};
 
 const requestToHandle = (request) => {
   if (wcHandleMap[request]) {
@@ -62,7 +62,6 @@ module.exports = merge(defaultConfig, {
       requestToExternal,
       requestToHandle
     }),
-
     new BrowserSyncPlugin({
       files: [
         './build/**/*.css',

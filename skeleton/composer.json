@@ -33,9 +33,6 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "extra": {
-    "installer-paths": {
-      "web/app/vendor/{$vendor}/{$name}": ["wpify/custom-fields"]
-    },
     "wpify-scoper": {
       "prefix": "WpifySkeletonDeps",
       "folder": "web/app/deps"

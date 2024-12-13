@@ -17,7 +17,7 @@
     "php-di/php-di": "^7.0.6",
     "wpify/plugin-utils": "^1.0.1",
     "wpify/asset": "^1.2.7",
-    "wpify/custom-fields": "^3.9.6",
+    "wpify/custom-fields": "^4.0.0",
     "wpify/model": "^4.0.10",
     "wpify/templates": "^3.1.5",
     "wpify/snippets": "^3.2.1"
