@@ -73,14 +73,14 @@ module.exports = merge(defaultConfig, {
         './**/*.php',
       ],
       ...(
-          fs.existsSync('./.ddev/traefik/certs/wpify-skeleton.key') && fs.existsSync('./.ddev/traefik/wpify-skeleton/events.crt')
-              ? {
-                https: {
-                  key: './.ddev/traefik/certs/wpify-skeleton.key',
-                  cert: './.ddev/traefik/certs/wpify-skeleton.crt',
-                },
-              }
-              : {}
+        fs.existsSync('./.ddev/traefik/certs/wpify-skeleton.key') && fs.existsSync('./.ddev/traefik/wpify-skeleton/events.crt')
+          ? {
+            https: {
+              key: './.ddev/traefik/certs/wpify-skeleton.key',
+              cert: './.ddev/traefik/certs/wpify-skeleton.crt',
+            },
+          }
+          : {}
       ),
     }, {
       injectCss: true,
