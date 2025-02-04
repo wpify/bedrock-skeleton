@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const BrowserSyncPlugin = require('browser-sync-v3-webpack-plugin');
 const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 const {merge} = require('webpack-merge');
 const WooCommerceDependencyExtractionWebpackPlugin = require('@woocommerce/dependency-extraction-webpack-plugin');
